@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  campsite-database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: users
+    ports:
+    - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+volumes:
+  pg_data:

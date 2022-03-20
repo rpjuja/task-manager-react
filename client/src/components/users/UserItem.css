@@ -1,0 +1,46 @@
+.user-item {
+  display: inline-block;
+  width: 100%;
+  padding: 0.5rem 0 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-item__name h2 {
+  float: left;
+  width: 20%;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+  padding: 10px 25px;
+  font-weight: normal;
+}
+
+.user-item__email h2 {
+  float: left;
+  width: 30%;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+  padding: 10px 25px;
+  font-weight: normal;
+}
+
+.user-item__priv h2 {
+  float: left;
+  width: auto;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem;
+  padding: 10px 25px;
+  font-weight: normal;
+}
+
+.user-item__buttons {
+  display: inline-flex;
+  float: right;
+  font-size: 1rem;
+  padding: 10px;
+  font-weight: normal;
+}
+
+.user-item:hover h2,
+.user-item:active h2 {
+  color: #292929;
+}
