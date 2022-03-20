@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import HttpError from "./models/http-error.js";
+import HttpError from "../models/http-error.js";
 
 import {
   addUser,
@@ -14,7 +14,7 @@ import {
   getUserById,
   getUserArrayById,
   getUserRowCountByEmail,
-} from "./models/users.js";
+} from "../models/users.js";
 
 const getUser = async (req, res, next) => {
   const id = req.params.uid;

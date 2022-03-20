@@ -7,7 +7,7 @@ const config = {
   port: 5432,
 };
 
-pgtools.dropdb(config, "users", (err, res) => {
+pgtools.dropdb(config, "taskmanagerDB", (err, res) => {
   if (err) {
     console.error(err);
     process.exit(-1);

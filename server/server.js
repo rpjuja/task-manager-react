@@ -1,7 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-import usersRouter from "./usersRouter.js";
+import usersRouter from "./routers/users.js";
+import tasksRouter from "./routers/tasks.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", usersRouter);
+app.use("/api/tasks", tasksRouter);
 
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);

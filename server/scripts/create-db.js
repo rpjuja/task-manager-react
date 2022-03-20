@@ -7,7 +7,7 @@ const config = {
   port: 5432,
 };
 
-pgtools.createdb(config, "users", (err, res) => {
+pgtools.createdb(config, "taskmanagerDB", (err, res) => {
   if (err) {
     console.error(err);
     process.exit(-1);
