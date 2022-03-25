@@ -1,12 +1,12 @@
-import pg from "pg";
+import pg from 'pg'
 
 const pool = new pg.Pool({
-  database: "taskmanagerDB",
-  user: "user",
-  host: "127.0.0.1",
-  password: "pass",
-  port: 5432,
-});
+  database: 'taskmanagerDB',
+  user: 'user',
+  host: '127.0.0.1',
+  password: 'pass',
+  port: 5432
+})
 
 pool.query(
   `CREATE TABLE IF NOT EXISTS public.users
@@ -20,11 +20,11 @@ pool.query(
   )`,
   (error, results) => {
     if (error) {
-      throw error;
+      throw error
     }
-    console.log(results);
+    console.log(results)
   }
-);
+)
 
 pool.query(
   `CREATE TABLE IF NOT EXISTS public.tasks
@@ -40,8 +40,8 @@ pool.query(
   )`,
   (error, results) => {
     if (error) {
-      throw error;
+      throw error
     }
-    console.log(results);
+    console.log(results)
   }
-);
+)

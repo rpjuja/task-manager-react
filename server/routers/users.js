@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { check } from "express-validator";
+import { Router } from 'express'
+import { check } from 'express-validator'
 
 import {
   getUser,
@@ -7,33 +7,33 @@ import {
   editUser,
   deleteUser,
   signUpUser,
-  loginUser,
-} from "../controllers/users.js";
+  loginUser
+} from '../controllers/users.js'
 
-const usersRouter = Router();
+const usersRouter = Router()
 
 usersRouter.post(
-  "/signup",
+  '/signup',
   [
-    check("name").notEmpty(),
-    check("email").normalizeEmail().isEmail(),
-    check("password").isLength({ min: 6 }),
+    check('name').notEmpty(),
+    check('email').normalizeEmail().isEmail(),
+    check('password').isLength({ min: 6 })
   ],
   signUpUser
-);
+)
 
-usersRouter.post("/login", loginUser);
+usersRouter.post('/login', loginUser)
 
-usersRouter.get("/users", getUsers);
+usersRouter.get('/users', getUsers)
 
-usersRouter.get("/users/:uid", getUser);
+usersRouter.get('/users/:uid', getUser)
 
 usersRouter.patch(
-  "/users/:uid",
-  [check("name").notEmpty(), check("password").isLength({ min: 6 })],
+  '/users/:uid',
+  [check('name').notEmpty(), check('password').isLength({ min: 6 })],
   editUser
-);
+)
 
-usersRouter.delete("/users/:uid", deleteUser);
+usersRouter.delete('/users/:uid', deleteUser)
 
-export default usersRouter;
+export default usersRouter
