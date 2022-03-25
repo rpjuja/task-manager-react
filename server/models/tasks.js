@@ -12,7 +12,7 @@ const getAllTasksForUser = async (uid) => {
 const getTaskById = async (tid) => {
   const task = await pool.query('SELECT * FROM tasks WHERE id=$1', [tid])
   console.log(task)
-  return task.rows
+  return task.rows[0]
 }
 
 const addTask = async (task) => {
@@ -24,7 +24,7 @@ const addTask = async (task) => {
       task.description,
       task.deadline,
       task.status,
-      task.creator
+      task.creator,
     ]
   )
   return result.rows
@@ -48,5 +48,5 @@ export {
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById
+  deleteTaskById,
 }

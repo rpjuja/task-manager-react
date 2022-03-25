@@ -1,15 +1,15 @@
 import pool from '../database/db.js'
 
 const getAllUsers = async () => {
-  const users = await pool.query('SELECT * FROM users ORDER BY id ASC')
+  const users = await pool.query(
+    'SELECT id, name, email FROM users ORDER BY id ASC'
+  )
   console.log(users)
   return users.rows
 }
 
 const getUserRowCountByEmail = async (email) => {
-  const result = await pool.query('SELECT * FROM users WHERE email=$1', [
-    email
-  ])
+  const result = await pool.query('SELECT * FROM users WHERE email=$1', [email])
   console.log(result)
   return result.rowCount !== 0
 }
@@ -64,5 +64,5 @@ export {
   getUserRowCountByEmail,
   addUser,
   editExistingUser,
-  deleteUserWithId
+  deleteUserWithId,
 }

@@ -13,7 +13,7 @@ import {
   getUserByEmail,
   getUserById,
   getUserArrayById,
-  getUserRowCountByEmail
+  getUserRowCountByEmail,
 } from '../models/users.js'
 
 const getUser = async (req, res, next) => {
@@ -29,7 +29,7 @@ const getUsers = async (req, res, next) => {
 
 const signUpUser = async (req, res, next) => {
   const errors = validationResult(req)
-  if (!errors.isEmpty) {
+  if (!errors.isEmpty()) {
     return next(
       new HttpError('Invalid values given, please check the data', 422)
     )
@@ -54,7 +54,7 @@ const signUpUser = async (req, res, next) => {
     name,
     email,
     password: hashedPassword,
-    isAdmin: isAdmin || false
+    isAdmin: isAdmin || false,
   }
 
   const result = await addUser(newUser)
@@ -67,11 +67,11 @@ const signUpUser = async (req, res, next) => {
     token = jwt.sign(
       {
         userId: newUser.id,
-        email: newUser.email
+        email: newUser.email,
       },
       'this_is_my_supersecret_key', // NOT OPTIMAL, MOVE!
       {
-        expiresIn: '1h'
+        expiresIn: '1h',
       }
     )
   } catch (err) {
@@ -82,7 +82,7 @@ const signUpUser = async (req, res, next) => {
     userId: newUser.id,
     email: newUser.email,
     token: token,
-    isAdmin: newUser.isAdmin
+    isAdmin: newUser.isAdmin,
   })
 }
 
@@ -106,7 +106,7 @@ const loginUser = async (req, res, next) => {
 
   if (!isValidPassword) {
     return next(
-      new HttpError('Could not login, credentials might be wrong', 401)
+      new HttpError('Could not identify user, credentials might be wrong', 401)
     )
   }
 
@@ -115,28 +115,28 @@ const loginUser = async (req, res, next) => {
     token = jwt.sign(
       {
         userId: identifiedUser.id,
-        email: identifiedUser.email
+        email: identifiedUser.email,
       },
       'this_is_my_supersecret_key', // NOT OPTIMAL, MOVE!
       {
-        expiresIn: '1h'
+        expiresIn: '1h',
       }
     )
   } catch (err) {
     return next(new HttpError('Signup process failed, try again', 500))
   }
 
-  res.status(200).json({
+  res.status(201).json({
     userId: identifiedUser.id,
     email: identifiedUser.email,
     token: token,
-    isAdmin: identifiedUser.isadmin
+    isAdmin: identifiedUser.isadmin,
   })
 }
 
 const editUser = async (req, res, next) => {
   const errors = validationResult(req)
-  if (!errors.isEmpty) {
+  if (!errors.isEmpty()) {
     return next(
       new HttpError('Invalid values given, please check the data', 422)
     )
@@ -154,9 +154,7 @@ const editUser = async (req, res, next) => {
 
   const user = await getUserById(id)
   if (!user) {
-    return next(
-      new HttpError('Could not find a user for the provided id', 404)
-    )
+    return next(new HttpError('Could not find a user for the provided id', 404))
   }
 
   if (user.id !== id) {
@@ -169,7 +167,7 @@ const editUser = async (req, res, next) => {
   }
 
   res.status(200).json({
-    name: name
+    name: name,
   })
 }
 
@@ -178,9 +176,7 @@ const deleteUser = async (req, res, next) => {
 
   const user = await getUserById(id)
   if (!user) {
-    return next(
-      new HttpError('Could not find a user for the provided id', 404)
-    )
+    return next(new HttpError('Could not find a user for the provided id', 404))
   }
 
   if (user.id !== id && !user.isAdmin) {

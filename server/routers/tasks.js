@@ -6,7 +6,7 @@ import {
   getTask,
   createTask,
   updateTask,
-  deleteTask
+  deleteTask,
 } from '../controllers/tasks.js'
 
 const tasksRouter = Router()
@@ -20,7 +20,7 @@ tasksRouter.post(
   [
     check('title').notEmpty(),
     check('description').notEmpty(),
-    check('deadline').notEmpty()
+    check('deadline').notEmpty(),
   ],
   createTask
 )
@@ -30,7 +30,7 @@ tasksRouter.patch(
   [
     check('title').notEmpty(),
     check('description').notEmpty(),
-    check('deadline').notEmpty()
+    check('deadline').notEmpty(),
   ],
   updateTask
 )

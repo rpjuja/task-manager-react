@@ -7,7 +7,7 @@ import {
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById
+  deleteTaskById,
 } from '../models/tasks.js'
 
 const getUsersTasks = async (req, res, next) => {
@@ -37,7 +37,7 @@ const createTask = async (req, res, next) => {
     description,
     deadline,
     status: status || 0,
-    creator
+    creator,
   }
 
   const result = await addTask(newTask)
@@ -61,14 +61,12 @@ const updateTask = async (req, res, next) => {
   const task = await getTaskById(tid)
 
   if (!task) {
-    return next(
-      new HttpError('Could not find a task for the provided id', 404)
-    )
+    return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  //   if (task.creator !== req.userData.userId) {
-  //     return next(new HttpError("Not authorized to update the task.", 401));
-  //   }
+  // if (task.creator !== req.userData.userId) {
+  //   return next(new HttpError('Not authorized to update the task.', 401))
+  // }
 
   const result = await updateTaskById(tid, title, description, deadline)
   console.log(result)
@@ -89,20 +87,16 @@ const deleteTask = async (req, res, next) => {
 
   const task = getTaskById(tid)
   if (!task) {
-    return next(
-      new HttpError('Could not find a task for the provided id', 404)
-    )
+    return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  //   if (task.creator !== req.userData.userId) {
-  //     return next(new HttpError("Not authorized to delete the task", 401));
-  //   }
+  // if (task.creator !== req.userData.userId) {
+  //   return next(new HttpError('Not authorized to delete the task', 401))
+  // }
 
   const result = await deleteTaskById(tid)
   if (!result) {
-    return next(
-      new HttpError('Could not delete the task the provided id', 404)
-    )
+    return next(new HttpError('Could not delete the task the provided id', 404))
   }
   res.status(200).json({ message: 'Task deleted' })
 }
