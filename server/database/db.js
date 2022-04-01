@@ -1,4 +1,5 @@
 import pg from 'pg'
+import dotenv from 'dotenv/config'
 
 const pool = new pg.Pool({
   database: process.env.DB_NAME,

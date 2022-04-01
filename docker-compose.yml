@@ -1,11 +1,11 @@
 version: '3.7'
 services:
-  campsite-database:
+  taskmanager-database:
     image: postgres:alpine
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: users
+      POSTGRES_DB: taskmanagerDB
     ports:
     - '5432:5432'
     volumes:

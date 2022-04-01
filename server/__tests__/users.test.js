@@ -7,7 +7,7 @@ import pool from '../database/db.js'
 const userData = {
   name: 'John Wayne',
   email: 'john@wayne.com',
-  password: 'password',
+  password: 'password'
 }
 
 test('GET /api/users returns list of users', async () => {
@@ -125,4 +125,3 @@ test('POST /api/users/signup with invalid password', async () => {
     '{"message":"Invalid values given, please check the data"}'
   )
 })
-

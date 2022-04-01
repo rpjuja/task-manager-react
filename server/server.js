@@ -34,7 +34,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'Unknown error occured' })
 })
 
-const port = process.env.PORT || 5001
+const port = process.env.API_PORT || 5000
 app.listen(port, () => {
   console.log(`API is running on port ${port}`)
 })

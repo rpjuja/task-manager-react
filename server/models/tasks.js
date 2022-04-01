@@ -5,13 +5,11 @@ const getAllTasksForUser = async (uid) => {
     'SELECT * FROM tasks WHERE creator=$1 ORDER BY deadline ASC',
     [uid]
   )
-  console.log(tasks)
   return tasks.rows
 }
 
 const getTaskById = async (tid) => {
   const task = await pool.query('SELECT * FROM tasks WHERE id=$1', [tid])
-  console.log(task)
   return task.rows[0]
 }
 

@@ -7,9 +7,9 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit",
     "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit --coverage",
-    "start": "nodemon server.js",
-    "lint": "npx eslint server.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js",
-    "lint:fix": "npx eslint --fix server.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js"
+    "start": "nodemon -r dotenv/config server.js",
+    "lint": "npx eslint server.js __tests__/*.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js",
+    "lint:fix": "npx eslint --fix server.js __tests__/*.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +17,6 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.2",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
@@ -27,6 +26,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",

@@ -1,4 +1,5 @@
 import pgtools from 'pgtools'
+import dotenv from 'dotenv/config'
 
 const config = {
   user: process.env.DB_USER,

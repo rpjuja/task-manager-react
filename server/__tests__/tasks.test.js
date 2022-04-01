@@ -7,7 +7,7 @@ import pool from '../database/db.js'
 const loggedInUser = {
   userId: '',
   email: '',
-  token: '',
+  token: ''
 }
 
 let createdTaskId
@@ -18,7 +18,7 @@ beforeAll(async () => {
   const userData = {
     name: 'Shawn Carter',
     email: 'shawn@carter.com',
-    password: 'password',
+    password: 'password'
   }
 
   const response = await supertest(app)
@@ -37,7 +37,7 @@ test('POST /api/tasks creates a task ', async () => {
     description:
       'Finish building the backend for web development course project',
     deadline: '2022-04-01T18:00:00',
-    creator: loggedInUser.userId,
+    creator: loggedInUser.userId
   }
 
   const response = await supertest(app)
@@ -86,7 +86,7 @@ test('PATCH /api/tasks/taskId updates the task', async () => {
     title: 'Finish frontend',
     description:
       'Finish building the frontend for web development course project',
-    deadline: '2022-04-20T18:00:00',
+    deadline: '2022-04-20T18:00:00'
   }
 
   const response = await supertest(app)
@@ -109,7 +109,7 @@ test('DELETE /api/tasks/taskId deletes the task', async () => {
     .delete('/api/tasks/' + createdTaskId)
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer ' + loggedInUser.token)
-  expect(response.status).toBe(200)
   console.log(response)
+  expect(response.status).toBe(200)
   expect(response.body.message).toBe('Task deleted')
 })
