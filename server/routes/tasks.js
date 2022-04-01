@@ -9,11 +9,15 @@ import {
   deleteTask,
 } from '../controllers/tasks.js'
 
+import checkToken from '../middleware/verifyToken.js'
+
 const tasksRouter = Router()
 
 tasksRouter.get('/:uid', getUsersTasks)
 
 tasksRouter.get('/task/:tid', getTask)
+
+tasksRouter.use(checkToken)
 
 tasksRouter.post(
   '/',

@@ -1,11 +1,11 @@
 import pg from 'pg'
 
 const pool = new pg.Pool({
-  database: 'taskmanagerDB',
-  user: 'user',
-  host: '127.0.0.1',
-  password: 'pass',
-  port: 5432
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT
 })
 
 pool.query(

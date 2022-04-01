@@ -1,8 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import usersRouter from './routers/users.js'
-import tasksRouter from './routers/tasks.js'
+import usersRouter from './routes/users.js'
+import tasksRouter from './routes/tasks.js'
 import HttpError from './models/http-error.js'
 
 const app = express()
@@ -34,7 +34,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'Unknown error occured' })
 })
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5001
 app.listen(port, () => {
   console.log(`API is running on port ${port}`)
 })

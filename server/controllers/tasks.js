@@ -64,9 +64,9 @@ const updateTask = async (req, res, next) => {
     return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  // if (task.creator !== req.userData.userId) {
-  //   return next(new HttpError('Not authorized to update the task.', 401))
-  // }
+  if (task.creator !== req.userData.userId) {
+    return next(new HttpError('Not authorized to update the task.', 401))
+  }
 
   const result = await updateTaskById(tid, title, description, deadline)
   console.log(result)
@@ -90,9 +90,9 @@ const deleteTask = async (req, res, next) => {
     return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  // if (task.creator !== req.userData.userId) {
-  //   return next(new HttpError('Not authorized to delete the task', 401))
-  // }
+  if (task.creator !== req.userData.userId) {
+    return next(new HttpError('Not authorized to delete the task', 401))
+  }
 
   const result = await deleteTaskById(tid)
   if (!result) {
