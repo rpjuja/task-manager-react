@@ -7,7 +7,7 @@ import {
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById,
+  deleteTaskById
 } from '../models/tasks.js'
 
 const getUsersTasks = async (req, res, next) => {
@@ -37,7 +37,7 @@ const createTask = async (req, res, next) => {
     description,
     deadline,
     status: status || 0,
-    creator,
+    creator
   }
 
   const result = await addTask(newTask)

@@ -6,7 +6,7 @@ import {
   getTask,
   createTask,
   updateTask,
-  deleteTask,
+  deleteTask
 } from '../controllers/tasks.js'
 
 import checkToken from '../middleware/verifyToken.js'
@@ -24,7 +24,7 @@ tasksRouter.post(
   [
     check('title').notEmpty(),
     check('description').notEmpty(),
-    check('deadline').notEmpty(),
+    check('deadline').notEmpty()
   ],
   createTask
 )
@@ -34,7 +34,7 @@ tasksRouter.patch(
   [
     check('title').notEmpty(),
     check('description').notEmpty(),
-    check('deadline').notEmpty(),
+    check('deadline').notEmpty()
   ],
   updateTask
 )

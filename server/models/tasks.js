@@ -24,7 +24,7 @@ const addTask = async (task) => {
       task.description,
       task.deadline,
       task.status,
-      task.creator,
+      task.creator
     ]
   )
   return result.rows
@@ -48,5 +48,5 @@ export {
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById,
+  deleteTaskById
 }

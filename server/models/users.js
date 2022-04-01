@@ -64,5 +64,5 @@ export {
   getUserRowCountByEmail,
   addUser,
   editExistingUser,
-  deleteUserWithId,
+  deleteUserWithId
 }

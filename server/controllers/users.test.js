@@ -4,7 +4,7 @@ import { signUpUser } from './users'
 import { getUserByEmail } from '../models/users'
 
 const mockRequest = (body) => ({
-  body,
+  body
 })
 
 const mockResponse = () => {
@@ -19,7 +19,7 @@ describe('The users controller', () => {
     const req = mockRequest({
       name: 'John Doe',
       email: 'john.doe@domain.com',
-      password: 'password',
+      password: 'password'
     })
     const res = mockResponse()
     const mockedNext = jest.fn()

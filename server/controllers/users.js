@@ -13,7 +13,7 @@ import {
   getUserByEmail,
   getUserById,
   getUserArrayById,
-  getUserRowCountByEmail,
+  getUserRowCountByEmail
 } from '../models/users.js'
 
 const getUser = async (req, res, next) => {
@@ -54,7 +54,7 @@ const signUpUser = async (req, res, next) => {
     name,
     email,
     password: hashedPassword,
-    isAdmin: isAdmin || false,
+    isAdmin: isAdmin || false
   }
 
   const result = await addUser(newUser)
@@ -67,11 +67,11 @@ const signUpUser = async (req, res, next) => {
     token = jwt.sign(
       {
         userId: newUser.id,
-        email: newUser.email,
+        email: newUser.email
       },
       process.env.JWT_KEY, // NOT OPTIMAL, MOVE!
       {
-        expiresIn: '1h',
+        expiresIn: '1h'
       }
     )
   } catch (err) {
@@ -82,7 +82,7 @@ const signUpUser = async (req, res, next) => {
     userId: newUser.id,
     email: newUser.email,
     token: token,
-    isAdmin: newUser.isAdmin,
+    isAdmin: newUser.isAdmin
   })
 }
 
@@ -115,11 +115,11 @@ const loginUser = async (req, res, next) => {
     token = jwt.sign(
       {
         userId: identifiedUser.id,
-        email: identifiedUser.email,
+        email: identifiedUser.email
       },
       process.env.JWT_KEY, // NOT OPTIMAL, MOVE!
       {
-        expiresIn: '1h',
+        expiresIn: '1h'
       }
     )
   } catch (err) {
@@ -130,7 +130,7 @@ const loginUser = async (req, res, next) => {
     userId: identifiedUser.id,
     email: identifiedUser.email,
     token: token,
-    isAdmin: identifiedUser.isadmin,
+    isAdmin: identifiedUser.isadmin
   })
 }
 
@@ -167,7 +167,7 @@ const editUser = async (req, res, next) => {
   }
 
   res.status(200).json({
-    name: name,
+    name: name
   })
 }
 
