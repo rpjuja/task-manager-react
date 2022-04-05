@@ -12,11 +12,11 @@ const pool = new pg.Pool({
 pool.query(
   `CREATE TABLE IF NOT EXISTS public.users
   (
-    id character varying(36) COLLATE pg_catalog."default" NOT NULL,
+    id character(36) COLLATE pg_catalog."default" NOT NULL,
     isAdmin boolean DEFAULT FALSE NOT NULL,
     name character varying(100) COLLATE pg_catalog."default" NOT NULL,
     email character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(200) COLLATE pg_catalog."default" NOT NULL,
+    password character(60) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id)
   )`,
   (error, results) => {
@@ -30,14 +30,15 @@ pool.query(
 pool.query(
   `CREATE TABLE IF NOT EXISTS public.tasks
   (
-    id character varying(36) COLLATE pg_catalog."default" NOT NULL,
-    title character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    description character varying(300) COLLATE pg_catalog."default" NOT NULL,
+    id character(36) COLLATE pg_catalog."default" NOT NULL,
+    title character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    description character varying(500) COLLATE pg_catalog."default" NOT NULL,
     status SMALLINT DEFAULT 0 NOT NULL,
     deadline TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    creator character varying(36) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT tasks_pkey PRIMARY KEY (id)
+    created_at TIMESTAMPTZ DEFAULT (NOW() + interval '3 hours'),
+    creator character(36) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tasks_pkey PRIMARY KEY (id),
+    CONSTRAINT tasks_fkey FOREIGN KEY (creator) REFERENCES users (id)
   )`,
   (error, results) => {
     if (error) {
