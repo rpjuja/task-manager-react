@@ -1,0 +1,43 @@
+.task-card {
+    position: relative;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow: hidden;
+    background: white;
+}
+
+.task-item {
+    margin: 1rem 0;
+}
+  
+.task-item__info {
+    padding: 1rem;
+    text-align: center;
+}
+  
+.task-item__info h2,
+.task-item__info h3,
+.task-item__info p {
+    margin: 0 0 0.5rem 0;
+}
+  
+.task-item__actions {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+  
+.task-item__modal-content {
+    padding: 0;
+}
+  
+.task-item__modal-actions {
+    text-align: right;
+}
+  
+.task-item__actions button,
+.task-item__actions a {
+    margin: 0.5rem;
+}

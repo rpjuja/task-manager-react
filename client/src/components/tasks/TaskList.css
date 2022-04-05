@@ -1,0 +1,23 @@
+.tasks-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+    grid-auto-flow: column;
+    padding: 1rem 3rem;
+}
+
+.grid-col-one {
+    grid-column: 1;
+    grid-row: span;
+}
+
+.grid-col-two {
+    grid-column: 2;
+    grid-row: span;
+}
+
+.grid-col-three {
+    grid-column: 3;
+    grid-row: span;
+}

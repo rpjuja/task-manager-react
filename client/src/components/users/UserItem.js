@@ -1,52 +1,52 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 
-import Button from "../button/Button";
-import LoadingSpinner from "../loadingspinner/LoadingSpinner";
-import ErrorModal from "../modal/ErrorModal";
-import { AuthContext } from "../../context/Auth-context";
-import { useHttpClient } from "../../hooks/http-hook";
+import Button from '../button/Button'
+import LoadingSpinner from '../loadingspinner/LoadingSpinner'
+import ErrorModal from '../modal/ErrorModal'
+import { AuthContext } from '../../context/Auth-context'
+import { useHttpClient } from '../../hooks/http-hook'
 
-import UserEditModal from "./UserEditModal";
-import "./UserItem.css";
+import UserEditModal from './UserEditModal'
+import './UserItem.css'
 
 const UserItem = (props) => {
-  const [modal, setModal] = useState(false);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [modal, setModal] = useState(false)
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const auth = useContext(AuthContext)
 
   const showModal = () => {
-    setModal(true);
-  };
+    setModal(true)
+  }
 
   const hideModal = () => {
-    setModal(false);
-  };
+    setModal(false)
+  }
 
-  const removeHandler = async () => {
+  const deleteHandler = async () => {
     try {
       await sendRequest(
         `http://localhost:5000/api/users/${props.id}`,
-        "DELETE",
+        'DELETE',
         {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
         }
-      );
-      props.update();
+      )
+      props.update()
     } catch (e) {}
-  };
+  }
 
   const userPrivileges = () => {
-    if (props.isAdmin) return <h2>Admin</h2>;
-    else return <h2>Standard</h2>;
-  };
+    if (props.isAdmin) return <h2>Admin</h2>
+    else return <h2>Standard</h2>
+  }
 
   if (isLoading) {
     return (
       <div className="center">
         <LoadingSpinner />
       </div>
-    );
+    )
   }
 
   return (
@@ -75,14 +75,14 @@ const UserItem = (props) => {
             </div>
           )}
           {(auth.userId === props.id || auth.isAdmin) && (
-            <Button danger onClick={removeHandler}>
+            <Button danger onClick={deleteHandler}>
               Delete
             </Button>
           )}
         </div>
       </li>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default UserItem;
+export default UserItem

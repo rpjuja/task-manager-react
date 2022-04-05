@@ -2,7 +2,7 @@ import pool from '../database/db.js'
 
 const getAllUsers = async () => {
   const users = await pool.query(
-    'SELECT id, name, email FROM users ORDER BY id ASC'
+    'SELECT id, name, email, isAdmin FROM users ORDER BY id ASC'
   )
   console.log(users)
   return users.rows

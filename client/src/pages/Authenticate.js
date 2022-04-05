@@ -1,73 +1,73 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext } from 'react'
 
-import Button from "../components/button/Button";
-import Input from "../components/input/Input";
-import { AuthContext } from "../context/Auth-context";
-import ErrorModal from "../components/modal/ErrorModal";
-import LoadingSpinner from "../components/loadingspinner/LoadingSpinner";
-import { useHttpClient } from "../hooks/http-hook";
-import { useForm } from "../hooks/form-hook";
+import Button from '../components/button/Button'
+import Input from '../components/input/Input'
+import { AuthContext } from '../context/Auth-context'
+import ErrorModal from '../components/modal/ErrorModal'
+import LoadingSpinner from '../components/loadingspinner/LoadingSpinner'
+import { useHttpClient } from '../hooks/http-hook'
+import { useForm } from '../hooks/form-hook'
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE,
-} from "../util/validators";
+  VALIDATOR_REQUIRE
+} from '../util/validators'
 
-import "./Authenticate.css";
+import './Authenticate.css'
 
 const Authenticate = (props) => {
-  const auth = useContext(AuthContext);
-  const [isLoginMode, setIsLoginMode] = useState(true);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const auth = useContext(AuthContext)
+  const [isLoginMode, setIsLoginMode] = useState(true)
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   const [formState, inputHandler, setFormData] = useForm({
     email: {
-      value: "",
-      isValid: false,
+      value: '',
+      isValid: false
     },
     password: {
-      value: "",
-      isValid: false,
-    },
-  });
+      value: '',
+      isValid: false
+    }
+  })
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (isLoginMode) {
       try {
         const response = await sendRequest(
-          "http://localhost:5000/api/login",
-          "POST",
+          'http://localhost:5000/api/users/login',
+          'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
+            password: formState.inputs.password.value
           }),
           {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           }
-        );
-        console.log(response);
-        auth.login(response.userId, response.token, response.isAdmin);
+        )
+        console.log(response)
+        auth.login(response.userId, response.token, response.isAdmin)
       } catch (err) {}
     } else {
       try {
         const response = await sendRequest(
-          "http://localhost:5000/api/signup",
-          "POST",
+          'http://localhost:5000/api/users/signup',
+          'POST',
           JSON.stringify({
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
+            password: formState.inputs.password.value
           }),
           {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           }
-        );
-        auth.login(response.userId, response.token, response.isAdmin);
+        )
+        auth.login(response.userId, response.token, response.isAdmin)
       } catch (err) {}
     }
-  };
+  }
 
   const switchModeHandler = () => {
     if (!isLoginMode) {
@@ -75,25 +75,25 @@ const Authenticate = (props) => {
         //We need to drop name data in login mode
         {
           ...formState.inputs,
-          name: undefined, //We can set it to undefined
+          name: undefined //We can set it to undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
-      );
+      )
     } else {
       setFormData(
         {
           ...formState.inputs, //We want the current email and password
           name: {
-            value: "", //We add the empty name value
-            isValid: false, //False because the name is empty
-          },
+            value: '', //We add the empty name value
+            isValid: false //False because the name is empty
+          }
         },
         false
-      ); //Form is false because name was false
+      ) //Form is false because name was false
     }
 
-    setIsLoginMode((prevMode) => !prevMode);
-  };
+    setIsLoginMode((prevMode) => !prevMode)
+  }
 
   return (
     <React.Fragment>
@@ -133,15 +133,15 @@ const Authenticate = (props) => {
             onInput={inputHandler}
           />
           <Button type="submit" disabled={!formState.isValid}>
-            {isLoginMode ? "LOGIN" : "SIGNUP"}
+            {isLoginMode ? 'LOGIN' : 'SIGNUP'}
           </Button>
         </form>
         <Button inverse onClick={switchModeHandler}>
-          {isLoginMode ? "Signup" : "Login"} instead?
+          {isLoginMode ? 'Signup' : 'Login'} instead?
         </Button>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Authenticate;
+export default Authenticate

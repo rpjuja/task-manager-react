@@ -8,10 +8,10 @@ import { AuthContext } from "../context/Auth-context";
 
 const Users = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const auth = useContext(AuthContext);
   const [userData, setUserData] = useState();
   // State used to update the list if a user is deleted or edited
   const [toggle, setToggle] = useState(false);
-  const auth = useContext(AuthContext);
   const userId = auth.userId;
 
   useEffect(() => {
