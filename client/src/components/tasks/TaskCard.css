@@ -1,11 +1,11 @@
 .task-card {
     position: relative;
     margin: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+    border-radius: 8px;
     padding: 1rem;
     overflow: hidden;
-    background: white;
+    background: rgb(255, 255, 255);
 }
 
 .task-item {
@@ -13,8 +13,8 @@
 }
   
 .task-item__info {
-    padding: 1rem;
-    text-align: center;
+    padding: 0rem 0.5rem 0.5rem 0.5rem;
+    text-align: left;
 }
   
 .task-item__info h2,
@@ -23,9 +23,9 @@
     margin: 0 0 0.5rem 0;
 }
   
-.task-item__actions {
-    padding: 1rem;
-    text-align: center;
+.task-item__buttons {
+    padding: 0.5rem 0.5rem 0rem 0.5rem;
+    text-align: left;
     border-top: 1px solid #ccc;
 }
   
@@ -37,7 +37,7 @@
     text-align: right;
 }
   
-.task-item__actions button,
-.task-item__actions a {
+.task-item__buttons button,
+.task-item__buttons a {
     margin: 0.5rem;
 }

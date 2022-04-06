@@ -28,13 +28,22 @@ const TaskList = (props) => {
 
   return (
     <div className="tasks-grid">
+      <div className="grid-col-one">
+        <h2>Backlog</h2>
+      </div>
+      <div className="grid-col-two">
+        <h2>In Progress</h2>
+      </div>
+      <div className="grid-col-three">
+        <h2>Done</h2>
+      </div>
       {props.items.map((task) => {
         return task.status === 0 ? (
-          <div className="grid-col-one">{insertTask(task)}</div>
+          <div className="grid-col-one card-padding">{insertTask(task)}</div>
         ) : task.status === 1 ? (
-          <div className="grid-col-two">{insertTask(task)}</div>
+          <div className="grid-col-two card-padding">{insertTask(task)}</div>
         ) : (
-          <div className="grid-col-three">{insertTask(task)}</div>
+          <div className="grid-col-three card-padding">{insertTask(task)}</div>
         )
       })}
     </div>

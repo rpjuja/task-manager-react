@@ -41,18 +41,11 @@ const UserItem = (props) => {
     else return <h2>Standard</h2>
   }
 
-  if (isLoading) {
-    return (
-      <div className="center">
-        <LoadingSpinner />
-      </div>
-    )
-  }
-
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <li className="user-item">
+        {isLoading && <LoadingSpinner asOverlay />}
         <div className="user-item__name">
           <h2>{props.name}</h2>
         </div>

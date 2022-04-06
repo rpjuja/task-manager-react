@@ -1,10 +1,15 @@
+.center {
+    display: flex;
+    justify-content: center;
+}
+
 .tasks-grid {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
+    grid-template-columns: repeat(3, 25%);
+    grid-gap: 0 2rem;
     grid-auto-flow: column;
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
 }
 
 .grid-col-one {
@@ -20,4 +25,35 @@
 .grid-col-three {
     grid-column: 3;
     grid-row: span;
+}
+
+.grid-col-one,
+.grid-col-two,
+.grid-col-three {
+    box-shadow: 0 2px 8px rgba(185, 185, 185, 0.26);
+    padding: 1rem 2rem;
+    overflow: hidden;
+    background: lightgrey;
+}
+/*
+.grid-col-one:first-child,
+.grid-col-two:first-child,
+.grid-col-three:first-child {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.grid-col-one:last-child,
+.grid-col-two:last-child,
+.grid-col-three:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+*/
+.card-padding {
+    padding: 1rem 3rem;
+}
+
+h2 {
+    margin: 0;
 }

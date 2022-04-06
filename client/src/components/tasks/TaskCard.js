@@ -30,11 +30,19 @@ const TaskCard = (props) => {
     } catch (err) {}
   }
 
-  if (isLoading) {
+  const printTimestamp = (timestamp) => {
+    const temp = timestamp.split('T')[0]
+    const date =
+      temp.substring(8, 10) +
+      '-' +
+      temp.substring(5, 7) +
+      '-' +
+      temp.substring(0, 4)
+    const time = timestamp.split('T')[1].substring(0,5)
     return (
-      <div className="center">
-        <LoadingSpinner />
-      </div>
+      <p>
+        {date} {time}
+      </p>
     )
   }
 
@@ -62,16 +70,17 @@ const TaskCard = (props) => {
         {isLoading && <LoadingSpinner asOverlay />}
         <div className="task-card">
           <div className="task-item__info">
-            <h2>{props.title}</h2>
-            <p>{props.description}</p>
-            <p>{props.deadline}</p>
+            <h3>{props.title}</h3>
+            {printTimestamp(props.deadline)}
           </div>
-          <div className="task-item__actions">
-            {auth.isLoggedIn && <Button to={`/tasks/${props.id}`}>Edit</Button>}
+          <div className="task-item__buttons">
             {auth.isLoggedIn && (
-              <Button danger onClick={showConfirmationHandler}>
-                Delete
-              </Button>
+              <div>
+                <Button to={`/tasks/${props.id}`}>Edit</Button>
+                <Button danger onClick={showConfirmationHandler}>
+                  Delete
+                </Button>
+              </div>
             )}
           </div>
         </div>

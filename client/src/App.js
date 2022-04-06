@@ -81,7 +81,7 @@ function App() {
     routes = (
       <Routes>
         <Route
-          exact
+          exact="true"
           path="/"
           element={<Navigate replace to="/tasks/" />}
         ></Route>
@@ -94,7 +94,7 @@ function App() {
     routes = (
       <Routes>
         <Route
-          exact
+          exact="true"
           path="/tasks"
           element={<Navigate replace to="/" />}
         ></Route>
