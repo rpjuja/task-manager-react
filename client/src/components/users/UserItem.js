@@ -10,17 +10,12 @@ import UserEditModal from './UserEditModal'
 import './UserItem.css'
 
 const UserItem = (props) => {
-  const [modal, setModal] = useState(false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
+  const [modal, setModal] = useState(false)
 
-  const showModal = () => {
-    setModal(true)
-  }
-
-  const hideModal = () => {
-    setModal(false)
-  }
+  const showModal = () => setModal(true)
+  const hideModal = () => setModal(false)
 
   const deleteHandler = async () => {
     try {

@@ -6,9 +6,9 @@
 .tasks-grid {
     list-style: none;
     display: grid;
+    align-items: start;
     grid-template-columns: repeat(3, 25%);
     grid-gap: 0 2rem;
-    grid-auto-flow: column;
     padding: 1rem 2rem;
 }
 

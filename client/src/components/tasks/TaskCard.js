@@ -7,15 +7,19 @@ import ErrorModal from '../modal/ErrorModal'
 import { AuthContext } from '../../context/Auth-context'
 import { useHttpClient } from '../../hooks/http-hook'
 
+import TaskEditModal from './TaskEditModal'
 import './TaskCard.css'
 
 const TaskCard = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const showConfirmationHandler = () => setShowConfirmationModal(true)
   const cancelConfirmationHandler = () => setShowConfirmationModal(false)
+  const showEditModal = () => setEditModal(true)
+  const hideEditModal = () => setEditModal(false)
 
   const deleteConfirmedHandler = async () => {
     setShowConfirmationModal(false)
@@ -38,7 +42,7 @@ const TaskCard = (props) => {
       temp.substring(5, 7) +
       '-' +
       temp.substring(0, 4)
-    const time = timestamp.split('T')[1].substring(0,5)
+    const time = timestamp.split('T')[1].substring(0, 5)
     return (
       <p>
         {date} {time}
@@ -52,13 +56,13 @@ const TaskCard = (props) => {
       <Modal
         show={showConfirmationModal}
         header="Are you sure?"
-        footerClass="task-item__modal-actions"
+        footerClass="task-card__modal-actions"
         footer={
           <React.Fragment>
             <Button inverse onClick={cancelConfirmationHandler}>
               Cancel
             </Button>
-            <Button delete onClick={deleteConfirmedHandler}>
+            <Button delete danger onClick={deleteConfirmedHandler}>
               Delete
             </Button>
           </React.Fragment>
@@ -66,22 +70,38 @@ const TaskCard = (props) => {
       >
         <p>Are you sure? Once it's gone, it's gone!</p>
       </Modal>
-      <li className="task-item">
+      <li className="task-card">
         {isLoading && <LoadingSpinner asOverlay />}
-        <div className="task-card">
-          <div className="task-item__info">
-            <h3>{props.title}</h3>
-            {printTimestamp(props.deadline)}
-          </div>
-          <div className="task-item__buttons">
-            {auth.isLoggedIn && (
-              <div>
-                <Button to={`/tasks/${props.id}`}>Edit</Button>
-                <Button danger onClick={showConfirmationHandler}>
-                  Delete
-                </Button>
-              </div>
-            )}
+        <div className="task-card__info">
+          <h3>{props.title}</h3>
+          {printTimestamp(props.deadline)}
+          <a id={'show' + props.id} href={'#show' + props.id} className="show">
+            More Details
+          </a>
+          <a id={'hide' + props.id} href="#/" className="hide">
+            Less Details
+          </a>
+          <div className="details">
+            <p>{props.description}</p>
+            <div className="task-card__buttons">
+              {auth.isLoggedIn && (
+                <div>
+                  <TaskEditModal
+                    id={props.id}
+                    title={props.title}
+                    description={props.description}
+                    deadline={props.deadline}
+                    show={editModal}
+                    handleClose={hideEditModal}
+                    update={props.update}
+                  />
+                  <Button onClick={showEditModal}>Edit</Button>
+                  <Button danger onClick={showConfirmationHandler}>
+                    Delete
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </li>
