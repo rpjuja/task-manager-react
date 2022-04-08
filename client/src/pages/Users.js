@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import UsersList from "../components/users/UsersList";
+import UserList from "../components/users/UserList";
 import ErrorModal from "../components/modal/ErrorModal";
 import LoadingSpinner from "../components/loadingspinner/LoadingSpinner";
 import { useHttpClient } from "../hooks/http-hook";
@@ -45,7 +45,7 @@ const Users = () => {
         </div>
       )}
       {!isLoading && userData && (
-        <UsersList items={userData.users} update={updateList} />
+        <UserList items={userData.users} update={updateList} />
       )}
     </React.Fragment>
   );

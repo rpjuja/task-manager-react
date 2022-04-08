@@ -1,43 +1,56 @@
 .task-card {
     position: relative;
     margin: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
     border-radius: 8px;
     padding: 1rem;
     overflow: hidden;
     background: rgb(255, 255, 255);
 }
 
-.task-item {
+.task-card {
     margin: 1rem 0;
 }
   
-.task-item__info {
-    padding: 0rem 0.5rem 0.5rem 0.5rem;
+.task-card__info {
+    padding: 0rem 0rem 0rem 0.5rem;
     text-align: left;
 }
-  
-.task-item__info h2,
-.task-item__info h3,
-.task-item__info p {
+
+.task-card__info h2,
+.task-card__info h3 {
     margin: 0 0 0.5rem 0;
 }
+
+.task-card__info p {
+    margin: 0.5rem 0 0.5rem 0;
+}
   
-.task-item__buttons {
-    padding: 0.5rem 0.5rem 0rem 0.5rem;
+.task-card__buttons {
+    padding: 0.5rem 0.5rem 0rem 0rem;
     text-align: left;
     border-top: 1px solid #ccc;
 }
   
-.task-item__modal-content {
+.task-card__modal-content {
     padding: 0;
 }
   
-.task-item__modal-actions {
+.task-card__modal-actions {
     text-align: right;
 }
   
-.task-item__buttons button,
-.task-item__buttons a {
+.task-card__buttons button,
+.task-card__buttons a {
     margin: 0.5rem;
+}
+
+.details,
+.hide,
+.show:target {
+  display: none;
+}
+.show:target + .hide,
+.show:target ~ .details {
+  display: block;
 }

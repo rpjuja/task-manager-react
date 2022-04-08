@@ -15,7 +15,6 @@ const TaskList = (props) => {
   const insertTask = (task) => {
     return (
       <TaskCard
-        key={task.id}
         id={task.id}
         title={task.title}
         description={task.description}
@@ -39,11 +38,11 @@ const TaskList = (props) => {
       </div>
       {props.items.map((task) => {
         return task.status === 0 ? (
-          <div className="grid-col-one card-padding">{insertTask(task)}</div>
+          <div className="grid-col-one card-padding" key={task.id}>{insertTask(task)}</div>
         ) : task.status === 1 ? (
-          <div className="grid-col-two card-padding">{insertTask(task)}</div>
+          <div className="grid-col-two card-padding" key={task.id}>{insertTask(task)}</div>
         ) : (
-          <div className="grid-col-three card-padding">{insertTask(task)}</div>
+          <div className="grid-col-three card-padding" key={task.id}>{insertTask(task)}</div>
         )
       })}
     </div>
