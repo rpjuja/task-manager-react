@@ -54,3 +54,45 @@
 .show:target ~ .details {
   display: block;
 }
+
+.dropdown {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+}
+
+.dropbtn {
+    width: 50px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    font-size: 20px;
+}
+
+.dropdown-content {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: #f1f1f1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content button {
+    color: black;
+    padding: 6px;
+    text-decoration: none;
+    display: block;
+    z-index: 5;
+}
+
+.dropdown-content > * {
+    text-align: left;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: lightgrey;}
+
+/* Change color of dropdown links on hover */
+.dropdown-content button:hover {cursor: pointer;}
