@@ -6,6 +6,8 @@ import LoadingSpinner from '../components/loadingspinner/LoadingSpinner'
 import { useHttpClient } from '../hooks/http-hook'
 import { AuthContext } from '../context/Auth-context'
 
+import './Tasks.css'
+
 const Tasks = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
@@ -15,7 +17,7 @@ const Tasks = () => {
   const userId = auth.userId
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchTasks = async () => {
       try {
         const tasks = await sendRequest(
           `http://localhost:5000/api/tasks/${userId}`
@@ -23,7 +25,7 @@ const Tasks = () => {
         setTaskData(tasks)
       } catch (err) {}
     }
-    fetchUsers()
+    fetchTasks()
   }, [userId, sendRequest, toggle]) //We can add sendRequest as dependency because useCallback will prevent a loop
 
   // Fetch tasks again and update list by setting state that's in useEffect dependencies

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, createRef, useEffect } from 'react'
 
 import Button from '../button/Button'
 import Modal from '../modal/Modal'
@@ -15,11 +15,24 @@ const TaskCard = (props) => {
   const auth = useContext(AuthContext)
   const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [editModal, setEditModal] = useState(false)
+  // State and ref for opening and closing dropdown menu correctly
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdown = createRef()
 
   const showConfirmationHandler = () => setShowConfirmationModal(true)
   const cancelConfirmationHandler = () => setShowConfirmationModal(false)
   const showEditModal = () => setEditModal(true)
   const hideEditModal = () => setEditModal(false)
+
+  useEffect(() => {
+    // Close dropdown menu if user clicks outside the menu
+    const handleClickOutside = (event) => {
+      if (dropdown.current && !dropdown.current.contains(event.target)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+  }, [dropdown, dropdownOpen])
 
   const deleteConfirmedHandler = async () => {
     setShowConfirmationModal(false)
@@ -53,6 +66,7 @@ const TaskCard = (props) => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
       <Modal
         show={showConfirmationModal}
         header="Are you sure?"
@@ -68,10 +82,39 @@ const TaskCard = (props) => {
           </React.Fragment>
         }
       >
-        <p>Are you sure? Once it's gone, it's gone!</p>
+        <p>There's no going back.</p>
       </Modal>
       <li className="task-card">
-        {isLoading && <LoadingSpinner asOverlay />}
+        <div class="dropdown" ref={dropdown}>
+          <button
+            className="dropbtn"
+            onClick={() => {
+              setDropdownOpen(!dropdownOpen)
+            }}
+          >
+            ☰
+          </button>
+          {dropdownOpen && (
+            <div className="dropdown-content">
+              <button onClick={() => {}}>Swith Status</button>
+              <div>
+                <TaskEditModal
+                  id={props.id}
+                  title={props.title}
+                  description={props.description}
+                  deadline={props.deadline}
+                  show={editModal}
+                  handleClose={hideEditModal}
+                  update={props.update}
+                />
+              </div>
+              <button onClick={showEditModal}>Edit</button>
+              <button onClick={showConfirmationHandler}>
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
         <div className="task-card__info">
           <h3>{props.title}</h3>
           {printTimestamp(props.deadline)}
@@ -83,25 +126,6 @@ const TaskCard = (props) => {
           </a>
           <div className="details">
             <p>{props.description}</p>
-            <div className="task-card__buttons">
-              {auth.isLoggedIn && (
-                <div>
-                  <TaskEditModal
-                    id={props.id}
-                    title={props.title}
-                    description={props.description}
-                    deadline={props.deadline}
-                    show={editModal}
-                    handleClose={hideEditModal}
-                    update={props.update}
-                  />
-                  <Button onClick={showEditModal}>Edit</Button>
-                  <Button danger onClick={showConfirmationHandler}>
-                    Delete
-                  </Button>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </li>
