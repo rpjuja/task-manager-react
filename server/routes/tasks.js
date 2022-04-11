@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 
 import {
-  getUsersTasks,
+  //  getUsersTasks,
   getTask,
   createTask,
   updateTask,
@@ -13,7 +13,7 @@ import checkToken from '../middleware/verifyToken.js'
 
 const tasksRouter = Router()
 
-tasksRouter.get('/:uid', getUsersTasks)
+//  tasksRouter.get('/:uid', getUsersTasks)
 
 tasksRouter.get('/task/:tid', getTask)
 

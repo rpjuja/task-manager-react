@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 
 import usersRouter from './routes/users.js'
 import tasksRouter from './routes/tasks.js'
+import taskListsRouter from './routes/taskLists.js'
 import HttpError from './models/http-error.js'
 
 const app = express()
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/users', usersRouter)
+app.use('/api/tasklists', taskListsRouter)
 app.use('/api/tasks', tasksRouter)
 
 app.use((req, res, next) => {
