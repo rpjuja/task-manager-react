@@ -10,6 +10,7 @@ const loggedInUser = {
   token: ''
 }
 
+let createdTaskListId
 let createdTaskId
 
 beforeAll(async () => {
@@ -21,14 +22,25 @@ beforeAll(async () => {
     password: 'password'
   }
 
-  const response = await supertest(app)
+  const signupRes = await supertest(app)
     .post('/api/users/signup')
     .set('Accept', 'application/json')
     .send(userData)
+  loggedInUser.email = signupRes.body.email
+  loggedInUser.userId = signupRes.body.userId
+  loggedInUser.token = signupRes.body.token
 
-  loggedInUser.email = response.body.email
-  loggedInUser.userId = response.body.userId
-  loggedInUser.token = response.body.token
+  const newTaskList = {
+    name: 'Project work',
+    creator: loggedInUser.userId
+  }
+
+  const taskListRes = await supertest(app)
+    .post('/api/tasklists')
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer ' + loggedInUser.token)
+    .send(newTaskList)
+  createdTaskListId = taskListRes.body.taskList.id
 })
 
 test('POST /api/tasks creates a task ', async () => {
@@ -36,8 +48,9 @@ test('POST /api/tasks creates a task ', async () => {
     title: 'Finish backend',
     description:
       'Finish building the backend for web development course project',
-    deadline: '2022-04-01T18:00:00',
-    creator: loggedInUser.userId
+    // Whitout .000Z timestamp will create a datetime that's 3 hours behind
+    deadline: '2022-04-01T18:00:00.000Z',
+    list_id: createdTaskListId
   }
 
   const response = await supertest(app)
@@ -51,17 +64,17 @@ test('POST /api/tasks creates a task ', async () => {
   expect(response.body.task.description).toBe(
     'Finish building the backend for web development course project'
   )
-  expect(response.body.task.deadline).toBe('2022-04-01T18:00:00')
-  expect(response.body.task.creator).toBe(loggedInUser.userId)
+  expect(response.body.task.deadline).toBe('2022-04-01T18:00:00.000Z')
+  expect(response.body.task.list_id).toBe(createdTaskListId)
 
   createdTaskId = response.body.task.id
 })
 
-test('GET /api/tasks/userId returns tasks for a user', async () => {
+// Testing taskLists route here because this is testing the tasks inside and not the task list
+test('GET /api/tasklists/taskListId/tasks returns tasks from a task list', async () => {
   const response = await supertest(app)
-    .get('/api/tasks/' + loggedInUser.userId)
+    .get('/api/tasklists/' + createdTaskListId + '/tasks')
     .set('Accept', 'application/json')
-    .set('Authorization', 'Bearer ' + loggedInUser.token)
   expect(response.status).toBe(200)
   expect(Array.isArray(response.body.tasks)).toBeTruthy()
 })
@@ -70,10 +83,8 @@ test('GET /api/tasks/task/taskId returns a task', async () => {
   const response = await supertest(app)
     .get('/api/tasks/task/' + createdTaskId)
     .set('Accept', 'application/json')
-    .set('Authorization', 'Bearer ' + loggedInUser.token)
   expect(response.status).toBe(200)
   expect(response.body.task.id).toBe(createdTaskId)
-  expect(response.body.task.title).toBeTruthy()
   expect(response.body.task.title).toBe('Finish backend')
   expect(response.body.task.description).toBe(
     'Finish building the backend for web development course project'
@@ -96,7 +107,6 @@ test('PATCH /api/tasks/taskId updates the task', async () => {
     .send(updatedTask)
   expect(response.status).toBe(200)
   expect(response.body.task.id).toBe(createdTaskId)
-  expect(response.body.task.title).toBeTruthy()
   expect(response.body.task.title).toBe('Finish frontend')
   expect(response.body.task.description).toBe(
     'Finish building the frontend for web development course project'
@@ -109,7 +119,6 @@ test('DELETE /api/tasks/taskId deletes the task', async () => {
     .delete('/api/tasks/' + createdTaskId)
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer ' + loggedInUser.token)
-  console.log(response)
   expect(response.status).toBe(200)
   expect(response.body.message).toBe('Task deleted')
 })

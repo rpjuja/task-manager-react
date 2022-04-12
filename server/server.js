@@ -37,8 +37,10 @@ app.use((error, req, res, next) => {
 })
 
 const port = process.env.API_PORT || 5000
-app.listen(port, () => {
-  console.log(`API is running on port ${port}`)
-})
-
+// Avoid port collision while running tests
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`API is running on port ${port}`)
+  })
+}
 export default app

@@ -51,8 +51,8 @@ pool.query(
     title character varying(50) COLLATE pg_catalog."default" NOT NULL,
     description character varying(500) COLLATE pg_catalog."default" NOT NULL,
     status SMALLINT DEFAULT 0 NOT NULL,
-    deadline TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT (NOW() + interval '3 hours'),
+    deadline TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT (NOW() + interval '6 hours'),
     list_id character(36) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT tasks_pkey PRIMARY KEY (id),
     CONSTRAINT tasks_fkey FOREIGN KEY (list_id) REFERENCES taskLists (id) ON DELETE CASCADE

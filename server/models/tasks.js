@@ -1,13 +1,5 @@
 import pool from '../database/db.js'
 
-// const getAllTasksForUser = async (uid) => {
-//   const tasks = await pool.query(
-//     'SELECT * FROM tasks WHERE creator=$1 ORDER BY deadline ASC',
-//     [uid]
-//   )
-//   return tasks.rows
-// }
-
 const getTaskById = async (tid) => {
   const task = await pool.query('SELECT * FROM tasks WHERE id=$1', [tid])
   return task.rows[0]

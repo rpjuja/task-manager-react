@@ -21,7 +21,11 @@ taskListsRouter.get('/:lid/tasks', getTasksFromTaskList)
 
 taskListsRouter.use(checkToken)
 
-taskListsRouter.post('/', [check('name').notEmpty()], createTaskList)
+taskListsRouter.post(
+  '/',
+  [check('name').notEmpty(), check('creator').notEmpty()],
+  createTaskList
+)
 
 taskListsRouter.delete('/:lid', deleteTaskList)
 

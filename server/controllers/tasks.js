@@ -11,12 +11,6 @@ import {
   getTaskListCreator
 } from '../models/tasks.js'
 
-// const getUsersTasks = async (req, res, next) => {
-//   const uid = req.params.uid
-//   const tasks = await getAllTasksForUser(uid)
-//   res.json({ tasks: tasks })
-// }
-
 const getTask = async (req, res, next) => {
   const tid = req.params.tid
   const task = await getTaskById(tid)
