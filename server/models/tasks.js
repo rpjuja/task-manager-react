@@ -1,13 +1,5 @@
 import pool from '../database/db.js'
 
-const getAllTasksForUser = async (uid) => {
-  const tasks = await pool.query(
-    'SELECT * FROM tasks WHERE creator=$1 ORDER BY deadline ASC',
-    [uid]
-  )
-  return tasks.rows
-}
-
 const getTaskById = async (tid) => {
   const task = await pool.query('SELECT * FROM tasks WHERE id=$1', [tid])
   return task.rows[0]
@@ -15,14 +7,14 @@ const getTaskById = async (tid) => {
 
 const addTask = async (task) => {
   const result = await pool.query(
-    'INSERT INTO tasks (id, title, description, deadline, status, creator) VALUES ($1, $2, $3, $4, $5, $6)',
+    'INSERT INTO tasks (id, title, description, deadline, status, list_id) VALUES ($1, $2, $3, $4, $5, $6)',
     [
       task.id,
       task.title,
       task.description,
       task.deadline,
       task.status,
-      task.creator
+      task.list_id
     ]
   )
   return result.rows
@@ -41,10 +33,23 @@ const deleteTaskById = async (tid) => {
   return result.rowCount !== 0
 }
 
+const getTaskListCreator = async (tid) => {
+  const result = await pool.query(
+    `
+  SELECT TL.creator
+  FROM taskLists TL
+  INNER JOIN tasks T ON TL.id=T.list_id
+  WHERE T.id=$1`,
+    [tid]
+  )
+  return result.rows[0]
+}
+
 export {
-  getAllTasksForUser,
+  // getAllTasksForUser,
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById
+  deleteTaskById,
+  getTaskListCreator
 }

@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 
 import usersRouter from './routes/users.js'
 import tasksRouter from './routes/tasks.js'
+import taskListsRouter from './routes/taskLists.js'
 import HttpError from './models/http-error.js'
 
 const app = express()
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/users', usersRouter)
+app.use('/api/tasklists', taskListsRouter)
 app.use('/api/tasks', tasksRouter)
 
 app.use((req, res, next) => {
@@ -35,8 +37,10 @@ app.use((error, req, res, next) => {
 })
 
 const port = process.env.API_PORT || 5000
-app.listen(port, () => {
-  console.log(`API is running on port ${port}`)
-})
-
+// Avoid port collision while running tests
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`API is running on port ${port}`)
+  })
+}
 export default app

@@ -28,17 +28,34 @@ pool.query(
 )
 
 pool.query(
+  `CREATE TABLE IF NOT EXISTS public.taskLists
+  (
+    id character(36) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    creator character(36) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT taskLists_pkey PRIMARY KEY (id),
+    CONSTRAINT taskLists_fkey FOREIGN KEY (creator) REFERENCES users (id) ON DELETE CASCADE
+  )`,
+  (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results)
+  }
+)
+
+pool.query(
   `CREATE TABLE IF NOT EXISTS public.tasks
   (
     id character(36) COLLATE pg_catalog."default" NOT NULL,
     title character varying(50) COLLATE pg_catalog."default" NOT NULL,
     description character varying(500) COLLATE pg_catalog."default" NOT NULL,
     status SMALLINT DEFAULT 0 NOT NULL,
-    deadline TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT (NOW() + interval '3 hours'),
-    creator character(36) COLLATE pg_catalog."default" NOT NULL,
+    deadline TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT (NOW() + interval '6 hours'),
+    list_id character(36) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT tasks_pkey PRIMARY KEY (id),
-    CONSTRAINT tasks_fkey FOREIGN KEY (creator) REFERENCES users (id)
+    CONSTRAINT tasks_fkey FOREIGN KEY (list_id) REFERENCES taskLists (id) ON DELETE CASCADE
   )`,
   (error, results) => {
     if (error) {

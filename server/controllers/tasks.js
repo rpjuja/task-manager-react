@@ -3,18 +3,13 @@ import { validationResult } from 'express-validator'
 
 import HttpError from '../models/http-error.js'
 import {
-  getAllTasksForUser,
+  // getAllTasksForUser,
   getTaskById,
   addTask,
   updateTaskById,
-  deleteTaskById
+  deleteTaskById,
+  getTaskListCreator
 } from '../models/tasks.js'
-
-const getUsersTasks = async (req, res, next) => {
-  const uid = req.params.uid
-  const tasks = await getAllTasksForUser(uid)
-  res.json({ tasks: tasks })
-}
 
 const getTask = async (req, res, next) => {
   const tid = req.params.tid
@@ -30,14 +25,15 @@ const createTask = async (req, res, next) => {
     )
   }
 
-  const { title, description, deadline, status, creator } = req.body
+  // eslint-disable-next-line camelcase
+  const { title, description, deadline, status, list_id } = req.body
   const newTask = {
     id: v4(),
     title,
     description,
     deadline,
     status: status || 0,
-    creator
+    list_id
   }
 
   const result = await addTask(newTask)
@@ -64,7 +60,8 @@ const updateTask = async (req, res, next) => {
     return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  if (task.creator !== req.userData.userId) {
+  const creator = await getTaskListCreator(tid)
+  if (creator.creator !== req.userData.userId) {
     return next(new HttpError('Not authorized to update the task', 401))
   }
 
@@ -90,7 +87,8 @@ const deleteTask = async (req, res, next) => {
     return next(new HttpError('Could not find a task for the provided id', 404))
   }
 
-  if (task.creator !== req.userData.userId) {
+  const creator = await getTaskListCreator(tid)
+  if (creator.creator !== req.userData.userId) {
     return next(new HttpError('Not authorized to delete the task', 401))
   }
 
@@ -103,4 +101,10 @@ const deleteTask = async (req, res, next) => {
   res.status(200).json({ message: 'Task deleted' })
 }
 
-export { getUsersTasks, getTask, createTask, updateTask, deleteTask }
+export {
+  // getUsersTasks,
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask
+}

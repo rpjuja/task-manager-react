@@ -39,8 +39,8 @@ const UserItem = (props) => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay />}
       <li className="user-item">
-        {isLoading && <LoadingSpinner asOverlay />}
         <div className="user-item__name">
           <h2>{props.name}</h2>
         </div>

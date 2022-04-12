@@ -14,7 +14,7 @@
     width: 40%;
     height: auto;
     border-radius: 8px;
-    padding: 10px 20px 10px 10px;
+    padding: 10px 30px 10px 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -30,10 +30,11 @@
     padding: 0 10px 0 0;
     margin-top: 0;
 }
+
 .buttons {
     position: absolute;
-    bottom: 5%;
-    right: 2%;
+    bottom: 8%;
+    right: 1%;
 }
 
 h4 {
