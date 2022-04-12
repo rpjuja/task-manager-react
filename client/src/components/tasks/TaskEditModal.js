@@ -119,7 +119,6 @@ const TaskEditModal = (props) => {
           />
           <h4>Deadline</h4>
           <div className="table">
-            
             <div className="table-cell">
               <Input
                 element="input"

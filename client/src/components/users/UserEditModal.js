@@ -95,10 +95,12 @@ const UserEditModal = (props) => {
             errorText="Enter a valid password"
             onInput={inputHandler}
           />
-          <Button danger onClick={props.handleClose}>
-            Close
-          </Button>
-          <Button onClick={onUpdate}>Update</Button>
+          <div className="user-edit-buttons">
+            <Button danger onClick={props.handleClose}>
+              Close
+            </Button>
+            <Button onClick={onUpdate}>Update</Button>
+          </div>
         </section>
       </div>
     </React.Fragment>

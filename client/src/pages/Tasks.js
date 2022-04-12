@@ -11,27 +11,20 @@ import './Tasks.css'
 const Tasks = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
-  const [taskData, setTaskData] = useState()
-  // State used to update the list if a task is deleted or edited
-  const [toggle, setToggle] = useState(false)
+  const [taskListData, setTaskListData] = useState()
   const userId = auth.userId
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchTaskLists = async () => {
       try {
-        const tasks = await sendRequest(
-          `http://localhost:5000/api/tasks/${userId}`
+        const res = await sendRequest(
+          `http://localhost:5000/api/tasklists/${userId}`
         )
-        setTaskData(tasks)
+        setTaskListData(res.taskLists)
       } catch (err) {}
     }
-    fetchTasks()
-  }, [userId, sendRequest, toggle]) //We can add sendRequest as dependency because useCallback will prevent a loop
-
-  // Fetch tasks again and update list by setting state that's in useEffect dependencies
-  const updateList = () => {
-    setToggle((prevState) => !prevState)
-  }
+    fetchTaskLists()
+  }, [userId, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
 
   return (
     <React.Fragment>
@@ -41,9 +34,7 @@ const Tasks = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && taskData && (
-        <TaskList items={taskData.tasks} update={updateList}></TaskList>
-      )}
+      {!isLoading && taskListData && <TaskList items={taskListData}></TaskList>}
     </React.Fragment>
   )
 }

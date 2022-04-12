@@ -13,14 +13,17 @@ import './TaskCard.css'
 const TaskCard = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false)
   const [editModal, setEditModal] = useState(false)
   // State and ref for opening and closing dropdown menu correctly
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdown = createRef()
 
-  const showConfirmationHandler = () => setShowConfirmationModal(true)
-  const cancelConfirmationHandler = () => setShowConfirmationModal(false)
+  const showDeleteConfirmationHandler = () =>
+    setShowDeleteConfirmationModal(true)
+  const cancelDeleteConfirmationHandler = () =>
+    setShowDeleteConfirmationModal(false)
   const showEditModal = () => setEditModal(true)
   const hideEditModal = () => setEditModal(false)
 
@@ -35,7 +38,7 @@ const TaskCard = (props) => {
   }, [dropdown, dropdownOpen])
 
   const deleteConfirmedHandler = async () => {
-    setShowConfirmationModal(false)
+    setShowDeleteConfirmationModal(false)
     try {
       await sendRequest(
         `http://localhost:5000/api/tasks/${props.id}`,
@@ -47,6 +50,7 @@ const TaskCard = (props) => {
     } catch (err) {}
   }
 
+  // Print timestamp with dd/mm/yyyy hh:mm format
   const printTimestamp = (timestamp) => {
     const temp = timestamp.split('T')[0]
     const date =
@@ -66,14 +70,18 @@ const TaskCard = (props) => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      {isLoading && <LoadingSpinner asOverlay />}
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
       <Modal
-        show={showConfirmationModal}
+        show={showDeleteConfirmationModal}
         header="Are you sure?"
         footerClass="task-card__modal-actions"
         footer={
           <React.Fragment>
-            <Button inverse onClick={cancelConfirmationHandler}>
+            <Button inverse onClick={cancelDeleteConfirmationHandler}>
               Cancel
             </Button>
             <Button delete danger onClick={deleteConfirmedHandler}>
@@ -85,7 +93,7 @@ const TaskCard = (props) => {
         <p>There's no going back.</p>
       </Modal>
       <li className="task-card">
-        <div class="dropdown" ref={dropdown}>
+        <div className="dropdown" ref={dropdown}>
           <button
             className="dropbtn"
             onClick={() => {
@@ -109,9 +117,7 @@ const TaskCard = (props) => {
                 />
               </div>
               <button onClick={showEditModal}>Edit</button>
-              <button onClick={showConfirmationHandler}>
-                Delete
-              </button>
+              <button onClick={showDeleteConfirmationHandler}>Delete</button>
             </div>
           )}
         </div>

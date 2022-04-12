@@ -1,48 +1,59 @@
 .tasks-grid {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(3, 25%);
+    grid-template-columns: 25% 25% 25% 20%;
     grid-gap: 0rem 2rem;
     align-items: start;
     padding: 1rem 2rem;
 }
 
-.grid-col-one {
+.task-col-one {
     grid-column: 1;
 }
 
-.grid-col-two {
+.task-col-two {
     grid-column: 2;
 
 }
 
-.grid-col-three {
+.task-col-three {
     grid-column: 3;
 }
 
-.grid-col-one,
-.grid-col-two,
-.grid-col-three {
+.task-col-one,
+.task-col-two,
+.task-col-three {
     box-shadow: 0 2px 8px rgba(185, 185, 185, 0.26);
     padding: 1rem 2rem;
     overflow: hidden;
     background: lightgrey;
 }
+
+.task-list-select {
+    grid-column: 4;
+    text-align: center;
+}
+
+.task-list-dropdown {
+    width: 80%;
+}
+
 /*
-.grid-col-one:first-child,
-.grid-col-two:first-child,
-.grid-col-three:first-child {
+.task-col-one:first-child,
+.task-col-two:first-child,
+.task-col-three:first-child {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
 
-.grid-col-one:last-child,
-.grid-col-two:last-child,
-.grid-col-three:last-child {
+.task-col-one:last-child,
+.task-col-two:last-child,
+.task-col-three:last-child {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }
 */
+
 .card-padding {
     padding: 1rem;
 }
@@ -50,3 +61,4 @@
 h2 {
     margin: 0;
 }
+
