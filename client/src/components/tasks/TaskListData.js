@@ -5,14 +5,11 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import ErrorModal from '../modal/ErrorModal'
 import { useHttpClient } from '../../hooks/http-hook'
 
-import './TaskList.css'
+import './TaskListData.css'
 
-const TaskList = (props) => {
+const TaskListData = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const [taskData, setTaskData] = useState()
-  const [selectedList, setSelectedList] = useState(() =>
-    props.items.length > 0 ? props.items[0].id : ''
-  )
+  const [taskData, setTaskData] = useState([])
   // State used to update the list if a task is deleted or edited
   const [toggle, setToggle] = useState(false)
 
@@ -20,13 +17,13 @@ const TaskList = (props) => {
     const fetchTasks = async () => {
       try {
         const res = await sendRequest(
-          `http://localhost:5000/api/tasklists/${selectedList}/tasks`
+          `http://localhost:5000/api/tasklists/${props.list}/tasks`
         )
         setTaskData(res.tasks)
       } catch (err) {}
     }
     fetchTasks()
-  }, [props.items, selectedList, toggle, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
+  }, [props.list, toggle, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
 
   // Fetch tasks again and update list by setting state that's in useEffect dependencies
   const updateList = () => {
@@ -51,7 +48,7 @@ const TaskList = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
-          <LoadingSpinner />
+          <LoadingSpinner asOverlay />
         </div>
       )}
       {!isLoading && taskData && (
@@ -93,32 +90,10 @@ const TaskList = (props) => {
               )
             })}
           </div>
-          {props.items.length > 0 ? (
-            <div className="task-list-select">
-              <label htmlFor="list-select">
-                <h3>Select workspace</h3>
-              </label>
-              <select
-                id="list-select"
-                className="task-list-dropdown"
-                onChange={(e) => setSelectedList(e.target.value)}
-              >
-                {props.items.map((tasklist) => {
-                  return (
-                    <option value={tasklist.id} key={tasklist.id}>
-                      {tasklist.name}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
-          ) : (
-            <h4 value="">No workspace available</h4>
-          )}
         </div>
       )}
     </React.Fragment>
   )
 }
 
-export default TaskList
+export default TaskListData

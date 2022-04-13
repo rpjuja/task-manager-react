@@ -1,7 +1,8 @@
 .tasks-grid {
+    flex: 4;
     list-style: none;
     display: grid;
-    grid-template-columns: 25% 25% 25% 20%;
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 0rem 2rem;
     align-items: start;
     padding: 1rem 2rem;
@@ -29,15 +30,6 @@
     background: lightgrey;
 }
 
-.task-list-select {
-    grid-column: 4;
-    text-align: center;
-}
-
-.task-list-dropdown {
-    width: 80%;
-}
-
 /*
 .task-col-one:first-child,
 .task-col-two:first-child,
@@ -61,4 +53,5 @@
 h2 {
     margin: 0;
 }
+
 

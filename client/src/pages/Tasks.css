@@ -1,8 +1,9 @@
 .center {
-    display: flex;
-    justify-content: center;
+    display: block;
+    text-align: center;
 }
 
-.task-screen-view {
+.task-screen {
     display: flex;
+    
 }

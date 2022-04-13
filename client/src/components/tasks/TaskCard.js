@@ -37,7 +37,7 @@ const TaskCard = (props) => {
     document.addEventListener('mousedown', handleClickOutside)
   }, [dropdown, dropdownOpen])
 
-  const deleteConfirmedHandler = async () => {
+  const removeTaskHandler = async () => {
     setShowDeleteConfirmationModal(false)
     try {
       await sendRequest(
@@ -84,7 +84,7 @@ const TaskCard = (props) => {
             <Button inverse onClick={cancelDeleteConfirmationHandler}>
               Cancel
             </Button>
-            <Button delete danger onClick={deleteConfirmedHandler}>
+            <Button delete danger onClick={removeTaskHandler}>
               Delete
             </Button>
           </React.Fragment>
