@@ -93,7 +93,7 @@ const TaskEditModal = (props) => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <div className={showHideClassName}>
-        {isLoading && <LoadingSpinner asOverlay />}
+        {isLoading && <LoadingSpinner />}
         <section className="modal-main">
           <Input
             element="input"

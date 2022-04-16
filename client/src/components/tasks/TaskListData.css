@@ -1,8 +1,9 @@
 .tasks-grid {
+    flex: 6;
     list-style: none;
     display: grid;
-    grid-template-columns: 25% 25% 25% 20%;
-    grid-gap: 0rem 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0rem 1rem;
     align-items: start;
     padding: 1rem 2rem;
 }
@@ -24,18 +25,9 @@
 .task-col-two,
 .task-col-three {
     box-shadow: 0 2px 8px rgba(185, 185, 185, 0.26);
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     overflow: hidden;
     background: lightgrey;
-}
-
-.task-list-select {
-    grid-column: 4;
-    text-align: center;
-}
-
-.task-list-dropdown {
-    width: 80%;
 }
 
 /*
@@ -55,10 +47,11 @@
 */
 
 .card-padding {
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 h2 {
     margin: 0;
 }
+
 

@@ -20,13 +20,6 @@ const TaskCard = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdown = createRef()
 
-  const showDeleteConfirmationHandler = () =>
-    setShowDeleteConfirmationModal(true)
-  const cancelDeleteConfirmationHandler = () =>
-    setShowDeleteConfirmationModal(false)
-  const showEditModal = () => setEditModal(true)
-  const hideEditModal = () => setEditModal(false)
-
   useEffect(() => {
     // Close dropdown menu if user clicks outside the menu
     const handleClickOutside = (event) => {
@@ -37,7 +30,7 @@ const TaskCard = (props) => {
     document.addEventListener('mousedown', handleClickOutside)
   }, [dropdown, dropdownOpen])
 
-  const deleteConfirmedHandler = async () => {
+  const removeTaskHandler = async () => {
     setShowDeleteConfirmationModal(false)
     try {
       await sendRequest(
@@ -75,16 +68,28 @@ const TaskCard = (props) => {
           <LoadingSpinner />
         </div>
       )}
+      <TaskEditModal
+                  id={props.id}
+                  title={props.title}
+                  description={props.description}
+                  deadline={props.deadline}
+                  show={editModal}
+                  handleClose={() => setEditModal(false)}
+                  update={props.update}
+                />
       <Modal
         show={showDeleteConfirmationModal}
         header="Are you sure?"
         footerClass="task-card__modal-actions"
         footer={
           <React.Fragment>
-            <Button inverse onClick={cancelDeleteConfirmationHandler}>
+            <Button
+              inverse
+              onClick={() => setShowDeleteConfirmationModal(false)}
+            >
               Cancel
             </Button>
-            <Button delete danger onClick={deleteConfirmedHandler}>
+            <Button delete danger onClick={removeTaskHandler}>
               Delete
             </Button>
           </React.Fragment>
@@ -105,19 +110,10 @@ const TaskCard = (props) => {
           {dropdownOpen && (
             <div className="dropdown-content">
               <button onClick={() => {}}>Swith Status</button>
-              <div>
-                <TaskEditModal
-                  id={props.id}
-                  title={props.title}
-                  description={props.description}
-                  deadline={props.deadline}
-                  show={editModal}
-                  handleClose={hideEditModal}
-                  update={props.update}
-                />
-              </div>
-              <button onClick={showEditModal}>Edit</button>
-              <button onClick={showDeleteConfirmationHandler}>Delete</button>
+              <button onClick={() => setEditModal(true)}>Edit</button>
+              <button onClick={() => setShowDeleteConfirmationModal(true)}>
+                Delete
+              </button>
             </div>
           )}
         </div>

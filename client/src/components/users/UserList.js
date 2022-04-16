@@ -1,20 +1,14 @@
-import React from "react";
-import UserItem from "./UserItem";
+import React from 'react'
+import UserItem from './UserItem'
 
-import "./UserList.css";
+import './UserList.css'
 
 const UserList = (props) => {
-  if (props.items.length === 0) {
-    return (
-      <div className="center">
-        <h2>No users found.</h2>
-      </div>
-    );
-  } else {
+  if (props.items.length > 0) {
     // Sort alphabetically
     props.items.sort(function (a, b) {
-      return a.name.localeCompare(b.name);
-    });
+      return a.name.localeCompare(b.name)
+    })
   }
 
   return (
@@ -31,7 +25,7 @@ const UserList = (props) => {
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default UserList;
+export default UserList

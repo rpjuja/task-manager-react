@@ -46,7 +46,6 @@ const getTaskListCreator = async (tid) => {
 }
 
 export {
-  // getAllTasksForUser,
   getTaskById,
   addTask,
   updateTaskById,

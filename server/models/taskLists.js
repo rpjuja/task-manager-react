@@ -23,6 +23,7 @@ const getAllTasksFromTaskList = async (lid) => {
   JOIN taskLists TL
   ON T.list_id=TL.id
   WHERE TL.id=$1
+  ORDER BY deadline
   `,
     [lid]
   )
