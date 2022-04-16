@@ -6,6 +6,7 @@
     padding: 1rem;
     overflow: hidden;
     background: rgb(255, 255, 255);
+    z-index: 0;
 }
 
 .task-card {
@@ -56,13 +57,12 @@
 }
 
 .dropdown {
-    display: inline-block;
     position: absolute;
     right: 15px;
 }
 
 .dropbtn {
-    width: 50px;
+    width: 3rem;
     background-color: #fff;
     color: #333;
     cursor: pointer;
@@ -82,9 +82,8 @@
 
 .dropdown-content button {
     color: black;
-    padding: 6px;
+    padding: 5px;
     text-decoration: none;
-    z-index: 5;
 }
 
 .dropdown-content > * {

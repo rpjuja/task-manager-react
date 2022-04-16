@@ -55,7 +55,6 @@ const TaskListData = (props) => {
         <div className="tasks-grid">
           <div className="task-col-one">
             <h2>Backlog</h2>
-            {}
             {taskData.map((task) => {
               return (
                 task.status === 0 && (

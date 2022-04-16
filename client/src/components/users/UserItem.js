@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 
+import Modal from '../modal/Modal'
 import Button from '../button/Button'
 import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import ErrorModal from '../modal/ErrorModal'
@@ -13,11 +14,10 @@ const UserItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
   const [modal, setModal] = useState(false)
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false)
 
-  const showModal = () => setModal(true)
-  const hideModal = () => setModal(false)
-
-  const deleteHandler = async () => {
+  const removeUserHandler = async () => {
     try {
       await sendRequest(
         `http://localhost:5000/api/users/${props.id}`,
@@ -27,6 +27,10 @@ const UserItem = (props) => {
           Authorization: 'Bearer ' + auth.token
         }
       )
+      // Logout if removing own account
+      if (props.id === auth.userId) {
+        auth.logout()
+      }
       props.update()
     } catch (e) {}
   }
@@ -56,16 +60,44 @@ const UserItem = (props) => {
                 name={props.name}
                 password={props.password}
                 show={modal}
-                handleClose={hideModal}
+                handleClose={() => setModal(false)}
                 update={props.update}
               />
-              <Button onClick={showModal}>Edit</Button>
+              <Button onClick={() => setModal(true)}>Edit</Button>
             </div>
           )}
           {(auth.userId === props.id || auth.isAdmin) && (
-            <Button danger onClick={deleteHandler}>
-              Delete
-            </Button>
+            <div>
+              <Modal
+                show={showDeleteConfirmationModal}
+                header="Are you sure?"
+                footerClass="task-card__modal-actions"
+                footer={
+                  <React.Fragment>
+                    <Button
+                      inverse
+                      onClick={() => setShowDeleteConfirmationModal(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button delete danger onClick={removeUserHandler}>
+                      Delete
+                    </Button>
+                  </React.Fragment>
+                }
+              >
+                <p>You will lose all tasks inside the workspace as well.</p>
+              </Modal>
+              <Button
+                delete
+                danger
+                onClick={() => {
+                  setShowDeleteConfirmationModal(true)
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </Button>
+            </div>
           )}
         </div>
       </li>

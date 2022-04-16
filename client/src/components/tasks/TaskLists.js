@@ -15,13 +15,10 @@ const TaskLists = (props) => {
   const [selectedList, setSelectedList] = useState(() =>
     props.items.length > 0 ? props.items[0].id : ''
   )
-
+  const [showInput, setShowInput] = useState(false)
+  const [newListName, setNewListName] = useState()
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
-  const showDeleteConfirmationHandler = () =>
-    setShowDeleteConfirmationModal(true)
-  const cancelDeleteConfirmationHandler = () =>
-    setShowDeleteConfirmationModal(false)
 
   useEffect(() => {
     props.changeSelectedList(selectedList)
@@ -50,47 +47,80 @@ const TaskLists = (props) => {
           <LoadingSpinner asOverlay />
         </div>
       )}
-      <div className="task-list-select">
-        <label htmlFor="list-select">
-          <h3>Select workspace</h3>
-        </label>
-        <select
-          id="list-select"
-          onChange={(e) => setSelectedList(e.target.value)}
-        >
-          {props.items.map((tasklist) => {
-            return (
-              <option value={tasklist.id} key={tasklist.id}>
-                {tasklist.name}
-              </option>
-            )
-          })}
-        </select>
-        <Modal
-          show={showDeleteConfirmationModal}
-          header="Are you sure?"
-          footerClass="task-card__modal-actions"
-          footer={
-            <React.Fragment>
-              <Button inverse onClick={cancelDeleteConfirmationHandler}>
-                Cancel
-              </Button>
+      {!isLoading && (
+        <div className="task-list-select">
+          <Modal
+            show={showDeleteConfirmationModal}
+            header="Are you sure?"
+            footerClass="task-card__modal-actions"
+            footer={
+              <React.Fragment>
+                <Button
+                  inverse
+                  onClick={() => setShowDeleteConfirmationModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  delete
+                  danger
+                  onClick={() => removeTaskListHandler(selectedList)}
+                >
+                  Delete
+                </Button>
+              </React.Fragment>
+            }
+          >
+            <p>You will lose all tasks inside the workspace as well.</p>
+          </Modal>
+          <label htmlFor="list-select">
+            <h3>Select workspace</h3>
+          </label>
+          <div className="select-and-buttons">
+            <select
+              id="list-select"
+              onChange={(e) => setSelectedList(e.target.value)}
+            >
+              {props.items.map((tasklist) => {
+                return (
+                  <option value={tasklist.id} key={tasklist.id}>
+                    {tasklist.name}
+                  </option>
+                )
+              })}
+            </select>
+            <div>
               <Button
                 delete
                 danger
-                onClick={() => removeTaskListHandler(selectedList)}
+                onClick={() => setShowDeleteConfirmationModal(true)}
               >
-                Delete
+                <i className="fa fa-trash"></i>
               </Button>
-            </React.Fragment>
-          }
-        >
-          <p>You will lose all tasks inside the workspace as well.</p>
-        </Modal>
-        <Button delete danger onClick={showDeleteConfirmationHandler}>
-          <i className="fa fa-trash"></i>
-        </Button>
-      </div>
+              {/* TODO: Get workspace name from input*/}
+              <Button
+                onClick={() => {
+                  setShowInput(!showInput)
+                }}
+              >
+                <i className="fa fa-plus"></i>
+              </Button>
+            </div>
+          </div>
+          {showInput && (
+            <div className="new-ws-input">
+              <div className="arrow-up"></div>
+              <input
+                type="text"
+                onChange={(e) => setNewListName(e.target.value)}
+              />
+              <Button onClick={() => props.newTaskList(newListName)}>
+                Create
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </React.Fragment>
   )
 }

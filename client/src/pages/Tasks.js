@@ -17,6 +17,7 @@ const Tasks = () => {
   const userId = auth.userId
   const [taskListData, setTaskListData] = useState([])
   const [selectedList, setSelectedList] = useState()
+  const [newListName, setNewListName] = useState()
   // State used to update the task lists if a task list is added or deleted
   const [toggle, setToggle] = useState(false)
 
@@ -33,14 +34,14 @@ const Tasks = () => {
     fetchTaskLists()
   }, [userId, toggle, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
 
-  const addTaskListHandler = async () => {
+  const addTaskListHandler = async (listName) => {
     try {
       await sendRequest(
         `http://localhost:5000/api/tasklists`,
         'POST',
         JSON.stringify({
           // TODO: Get name from user
-          name: 'Project',
+          name: listName,
           creator: auth.userId
         }),
         {
@@ -58,11 +59,16 @@ const Tasks = () => {
 
   if (!isLoading && !error && taskListData.length === 0) {
     return (
-      <div className="center">
-        <h3>No workspace available</h3>
-        <Button onClick={addTaskListHandler}>
-          Create your first workspace
-        </Button>
+      <div className="no-workspace">
+        <h2>Create your first workspace</h2>
+        <div className="ws-input">
+          <input
+            id="ws-name-input"
+            type="text"
+            onChange={(e) => setNewListName(e.target.value)}
+          />
+        </div>
+        <Button onClick={() => addTaskListHandler(newListName)}>Create</Button>
       </div>
     )
   }
@@ -77,14 +83,11 @@ const Tasks = () => {
       )}
       {!isLoading && taskListData && (
         <div className="task-screen">
-          <TaskListData
-            list={selectedList}
-            newTaskList={addTaskListHandler}
-            update={updateTaskLists}
-          />
+          <TaskListData list={selectedList} update={updateTaskLists} />
           <TaskLists
             items={taskListData}
             changeSelectedList={setSelectedList}
+            newTaskList={addTaskListHandler}
             update={updateTaskLists}
           />
         </div>

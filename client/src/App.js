@@ -95,7 +95,7 @@ function App() {
       <Routes>
         <Route
           exact="true"
-          path="/tasks"
+          path="*"
           element={<Navigate replace to="/" />}
         ></Route>
         <Route exact path="/" element={<Authenticate />}></Route>
