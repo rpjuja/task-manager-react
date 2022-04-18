@@ -19,8 +19,8 @@ usersRouter.get('/:uid', getUser)
 usersRouter.post(
   '/signup',
   [
-    check('name').notEmpty(),
-    check('email').normalizeEmail().isEmail(),
+    check('name').isLength({ min: 1, max: 100 }),
+    check('email').normalizeEmail().isEmail().isLength({ max: 100 }),
     check('password').isLength({ min: 6 })
   ],
   signUpUser

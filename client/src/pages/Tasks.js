@@ -15,7 +15,7 @@ const Tasks = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
   const userId = auth.userId
-  const [taskListData, setTaskListData] = useState([])
+  const [taskLists, setTaskLists] = useState([])
   const [selectedList, setSelectedList] = useState()
   const [newListName, setNewListName] = useState()
   // State used to update the task lists if a task list is added or deleted
@@ -27,8 +27,8 @@ const Tasks = () => {
         const res = await sendRequest(
           `http://localhost:5000/api/tasklists/${userId}`
         )
-        // Update taskListData only if response array has something, otherwise keep state as undefined
-        setTaskListData(res.taskLists)
+        setTaskLists(res.taskLists)
+        setSelectedList(res.taskLists[0].id)
       } catch (err) {}
     }
     fetchTaskLists()
@@ -57,7 +57,7 @@ const Tasks = () => {
     setToggle((prevState) => !prevState)
   }
 
-  if (!isLoading && !error && taskListData.length === 0) {
+  if (!isLoading && !error && taskLists.length === 0) {
     return (
       <div className="no-workspace">
         <h2>Create your first workspace</h2>
@@ -81,11 +81,12 @@ const Tasks = () => {
           <LoadingSpinner asOverlay />
         </div>
       )}
-      {!isLoading && taskListData && (
+      {!isLoading && taskLists && (
         <div className="task-screen">
-          <TaskListData list={selectedList} update={updateTaskLists} />
+          <TaskListData selectedList={selectedList} update={updateTaskLists} />
           <TaskLists
-            items={taskListData}
+            items={taskLists}
+            selectedList={selectedList}
             changeSelectedList={setSelectedList}
             newTaskList={addTaskListHandler}
             update={updateTaskLists}

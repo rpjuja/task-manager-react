@@ -7,7 +7,7 @@ import ErrorModal from '../modal/ErrorModal'
 import { AuthContext } from '../../context/Auth-context'
 import { useHttpClient } from '../../hooks/http-hook'
 
-import TaskEditModal from './TaskEditModal'
+import EditTaskModal from './EditTaskModal'
 import './TaskCard.css'
 
 const TaskCard = (props) => {
@@ -15,7 +15,7 @@ const TaskCard = (props) => {
   const auth = useContext(AuthContext)
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
-  const [editModal, setEditModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
   // State and ref for opening and closing dropdown menu correctly
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdown = createRef()
@@ -68,15 +68,15 @@ const TaskCard = (props) => {
           <LoadingSpinner />
         </div>
       )}
-      <TaskEditModal
-                  id={props.id}
-                  title={props.title}
-                  description={props.description}
-                  deadline={props.deadline}
-                  show={editModal}
-                  handleClose={() => setEditModal(false)}
-                  update={props.update}
-                />
+      <EditTaskModal
+        id={props.id}
+        title={props.title}
+        description={props.description}
+        deadline={props.deadline}
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        update={props.update}
+      />
       <Modal
         show={showDeleteConfirmationModal}
         header="Are you sure?"
@@ -110,7 +110,7 @@ const TaskCard = (props) => {
           {dropdownOpen && (
             <div className="dropdown-content">
               <button onClick={() => {}}>Swith Status</button>
-              <button onClick={() => setEditModal(true)}>Edit</button>
+              <button onClick={() => setShowEditModal(true)}>Edit</button>
               <button onClick={() => setShowDeleteConfirmationModal(true)}>
                 Delete
               </button>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import Input from '../input/Input'
 import Button from '../button/Button'
@@ -9,9 +9,9 @@ import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
 import { VALIDATOR_REQUIRE } from '../../util/validators'
 
-import './TaskEditModal.css'
+import './TaskModal.css'
 
-const TaskEditModal = (props) => {
+const AddTaskModal = (props) => {
   const showHideClassName = props.show
     ? 'modal-background display-block'
     : 'modal-background display-none'
@@ -19,61 +19,43 @@ const TaskEditModal = (props) => {
   const auth = useContext(AuthContext)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
-  const [formState, inputHandler, setFormData] = useForm({
-    title: {
-      value: '',
-      isValid: false
-    },
-    description: {
-      value: '',
-      isValid: false
-    },
-    deadlineDate: {
-      value: '',
-      isValid: false
-    },
-    deadlineTime: {
-      value: '',
-      isValid: false
-    }
-  })
-
-  useEffect(() => {
-    setFormData(
-      {
-        title: {
-          value: props.title,
-          isValid: true
-        },
-        description: {
-          value: props.description,
-          isValid: true
-        },
-        deadlineDate: {
-          value: props.deadline.split('T')[0],
-          isValid: true
-        },
-        deadlineTime: {
-          value: props.deadline.split('T', 5)[1].substring(0, 5),
-          isValid: true
-        }
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false
       },
-      true
-    )
-  }, [props.title, props.description, props.deadline, setFormData])
+      description: {
+        value: '',
+        isValid: false
+      },
+      deadlineDate: {
+        value: '',
+        isValid: false
+      },
+      deadlineTime: {
+        value: '',
+        isValid: false
+      }
+    },
+    false
+  )
 
-  const editHandler = async () => {
+  const addTaskHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasks/${props.id}`,
-        'PATCH',
+        `http://localhost:5000/api/tasks/`,
+        'POST',
         JSON.stringify({
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           deadline:
             formState.inputs.deadlineDate.value +
             'T' +
-            formState.inputs.deadlineTime.value
+            formState.inputs.deadlineTime.value +
+            'Z',
+          status: props.status,
+          list_id: props.selectedList
         }),
         {
           'Content-Type': 'application/json',
@@ -84,8 +66,8 @@ const TaskEditModal = (props) => {
     } catch (e) {}
   }
 
-  const onUpdate = () => {
-    editHandler()
+  const onAdd = () => {
+    addTaskHandler()
     props.handleClose()
   }
 
@@ -101,9 +83,9 @@ const TaskEditModal = (props) => {
             type="text"
             label="Title"
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Enter a title"
-            initialValue={props.title}
-            initialValid={true}
+            errorText="Title has to be 1-50 characters"
+            initialValue=""
+            initialValid={false}
             onInput={inputHandler}
           />
           <Input
@@ -112,9 +94,9 @@ const TaskEditModal = (props) => {
             type="text"
             label="Description"
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Enter a description"
-            initialValue={props.description}
-            initialValid={true}
+            errorText="Description has to be 1-50 characters"
+            initialValue=""
+            initialValid={false}
             onInput={inputHandler}
           />
           <h4>Deadline</h4>
@@ -126,8 +108,8 @@ const TaskEditModal = (props) => {
                 type="date"
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText="Enter a valid date"
-                initialValue={props.deadline.split('T')[0]}
-                initialValid={true}
+                initialValue=""
+                initialValid={false}
                 onInput={inputHandler}
               />
             </div>
@@ -138,8 +120,8 @@ const TaskEditModal = (props) => {
                 type="time"
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText="Enter a valid time"
-                initialValue={props.deadline.split('T')[1].substring(0, 5)}
-                initialValid={true}
+                initialValue=""
+                initialValid={false}
                 onInput={inputHandler}
               />
             </div>
@@ -147,7 +129,9 @@ const TaskEditModal = (props) => {
               <Button danger onClick={props.handleClose}>
                 Close
               </Button>
-              <Button onClick={onUpdate}>Update</Button>
+              <Button disabled={!formState.isValid} onClick={onAdd}>
+                Add Task
+              </Button>
             </div>
           </div>
         </section>
@@ -156,4 +140,4 @@ const TaskEditModal = (props) => {
   )
 }
 
-export default TaskEditModal
+export default AddTaskModal
