@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import TaskCard from './TaskCard'
 
 import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import ErrorModal from '../modal/ErrorModal'
 import { useHttpClient } from '../../hooks/http-hook'
 
+import TaskCard from './TaskCard'
+import AddTaskModal from './AddTaskModal'
 import './TaskListData.css'
 
 const TaskListData = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const [taskData, setTaskData] = useState([])
+  const [newTaskStatus, setNewTaskStatus] = useState('')
+  const [showAddModal, setShowAddModal] = useState(false)
   // State used to update the list if a task is deleted or edited
   const [toggle, setToggle] = useState(false)
 
@@ -17,13 +20,13 @@ const TaskListData = (props) => {
     const fetchTasks = async () => {
       try {
         const res = await sendRequest(
-          `http://localhost:5000/api/tasklists/${props.list}/tasks`
+          `http://localhost:5000/api/tasklists/${props.selectedList}/tasks`
         )
         setTaskData(res.tasks)
       } catch (err) {}
     }
     fetchTasks()
-  }, [props.list, toggle, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
+  }, [props.selectedList, toggle, sendRequest]) //We can add sendRequest as dependency because useCallback will prevent a loop
 
   // Fetch tasks again and update list by setting state that's in useEffect dependencies
   const updateList = () => {
@@ -43,6 +46,8 @@ const TaskListData = (props) => {
     )
   }
 
+  console.log(props.selectedList)
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -51,6 +56,13 @@ const TaskListData = (props) => {
           <LoadingSpinner asOverlay />
         </div>
       )}
+      <AddTaskModal
+        status={newTaskStatus}
+        selectedList={props.selectedList}
+        show={showAddModal}
+        handleClose={() => setShowAddModal(false)}
+        update={updateList}
+      />
       {!isLoading && taskData && (
         <div className="tasks-grid">
           <div className="task-col-one">
@@ -64,6 +76,16 @@ const TaskListData = (props) => {
                 )
               )
             })}
+            <div className="add-button">
+              <button
+                onClick={() => {
+                  setNewTaskStatus(0)
+                  setShowAddModal(true)
+                }}
+              >
+                + Add Task
+              </button>
+            </div>
           </div>
           <div className="task-col-two">
             <h2>In Progress</h2>
@@ -76,6 +98,16 @@ const TaskListData = (props) => {
                 )
               )
             })}
+            <div className="add-button">
+              <button
+                onClick={() => {
+                  setNewTaskStatus(1)
+                  setShowAddModal(true)
+                }}
+              >
+                + Add Task
+              </button>
+            </div>
           </div>
           <div className="task-col-three">
             <h2>Done</h2>
@@ -88,6 +120,16 @@ const TaskListData = (props) => {
                 )
               )
             })}
+            <div className="add-button">
+              <button
+                onClick={() => {
+                  setNewTaskStatus(2)
+                  setShowAddModal(true)
+                }}
+              >
+                + Add Task
+              </button>
+            </div>
           </div>
         </div>
       )}

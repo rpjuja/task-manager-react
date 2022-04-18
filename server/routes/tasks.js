@@ -2,7 +2,6 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 
 import {
-  //  getUsersTasks,
   getTask,
   createTask,
   updateTask,
@@ -20,8 +19,8 @@ tasksRouter.use(checkToken)
 tasksRouter.post(
   '/',
   [
-    check('title').notEmpty(),
-    check('description').notEmpty(),
+    check('title').isLength({ min: 1, max: 50 }),
+    check('description').isLength({ min: 1, max: 500 }),
     check('deadline').isISO8601().toDate(),
     check('list_id').notEmpty()
   ],
@@ -31,9 +30,9 @@ tasksRouter.post(
 tasksRouter.patch(
   '/:tid',
   [
-    check('title').notEmpty(),
-    check('description').notEmpty(),
-    check('deadline').notEmpty()
+    check('title').isLength({ min: 1, max: 50 }),
+    check('description').isLength({ min: 1, max: 500 }),
+    check('deadline').isISO8601().toDate()
   ],
   updateTask
 )

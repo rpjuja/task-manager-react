@@ -23,7 +23,7 @@ taskListsRouter.use(checkToken)
 
 taskListsRouter.post(
   '/',
-  [check('name').notEmpty(), check('creator').notEmpty()],
+  [check('name').isLength({ min: 5, max: 50 }), check('creator').notEmpty()],
   createTaskList
 )
 

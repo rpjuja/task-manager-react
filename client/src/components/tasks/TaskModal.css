@@ -1,13 +1,13 @@
 .modal-background {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 }
-
+  
 .modal-main {
     position: fixed;
     background: white;
@@ -20,7 +20,7 @@
     transform: translate(-50%, -50%);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
-  
+
 .table {
     display: table;
     width: 30%;

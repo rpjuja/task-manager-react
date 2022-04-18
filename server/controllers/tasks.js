@@ -3,7 +3,6 @@ import { validationResult } from 'express-validator'
 
 import HttpError from '../models/http-error.js'
 import {
-  // getAllTasksForUser,
   getTaskById,
   addTask,
   updateTaskById,
@@ -31,7 +30,7 @@ const createTask = async (req, res, next) => {
     id: v4(),
     title,
     description,
-    deadline,
+    deadline: deadline,
     status: status || 0,
     list_id
   }
@@ -102,7 +101,6 @@ const deleteTask = async (req, res, next) => {
 }
 
 export {
-  // getUsersTasks,
   getTask,
   createTask,
   updateTask,
