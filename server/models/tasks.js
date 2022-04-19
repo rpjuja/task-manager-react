@@ -5,6 +5,18 @@ const getTaskById = async (tid) => {
   return task.rows[0]
 }
 
+const getTaskListCreator = async (tid) => {
+  const result = await pool.query(
+    `
+  SELECT TL.creator
+  FROM taskLists TL
+  INNER JOIN tasks T ON TL.id=T.list_id
+  WHERE T.id=$1`,
+    [tid]
+  )
+  return result.rows[0]
+}
+
 const addTask = async (task) => {
   const result = await pool.query(
     'INSERT INTO tasks (id, title, description, deadline, status, list_id) VALUES ($1, $2, $3, $4, $5, $6)',
@@ -28,27 +40,24 @@ const updateTaskById = async (tid, title, description, deadline) => {
   return result.rowCount !== 0
 }
 
+const updateTaskStatusById = async (tid, status) => {
+  const result = await pool.query('UPDATE tasks SET status=$1 WHERE id=$2', [
+    status,
+    tid
+  ])
+  return result.rowCount !== 0
+}
+
 const deleteTaskById = async (tid) => {
   const result = await pool.query('DELETE FROM tasks WHERE id=$1', [tid])
   return result.rowCount !== 0
 }
 
-const getTaskListCreator = async (tid) => {
-  const result = await pool.query(
-    `
-  SELECT TL.creator
-  FROM taskLists TL
-  INNER JOIN tasks T ON TL.id=T.list_id
-  WHERE T.id=$1`,
-    [tid]
-  )
-  return result.rows[0]
-}
-
 export {
   getTaskById,
+  getTaskListCreator,
   addTask,
   updateTaskById,
-  deleteTaskById,
-  getTaskListCreator
+  updateTaskStatusById,
+  deleteTaskById
 }

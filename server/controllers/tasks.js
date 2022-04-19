@@ -4,10 +4,11 @@ import { validationResult } from 'express-validator'
 import HttpError from '../models/http-error.js'
 import {
   getTaskById,
+  getTaskListCreator,
   addTask,
   updateTaskById,
-  deleteTaskById,
-  getTaskListCreator
+  updateTaskStatusById,
+  deleteTaskById
 } from '../models/tasks.js'
 
 const getTask = async (req, res, next) => {
@@ -31,7 +32,7 @@ const createTask = async (req, res, next) => {
     title,
     description,
     deadline: deadline,
-    status: status || 0,
+    status: status,
     list_id
   }
 
@@ -78,6 +79,40 @@ const updateTask = async (req, res, next) => {
   res.status(200).json({ task: task })
 }
 
+const updateTaskStatus = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return next(
+      new HttpError('Invalid values given, please check the data', 422)
+    )
+  }
+
+  const { status } = req.body
+  const tid = req.params.tid
+
+  const task = await getTaskById(tid)
+
+  if (!task) {
+    return next(new HttpError('Could not find a task for the provided id', 404))
+  }
+
+  const creator = await getTaskListCreator(tid)
+  if (creator.creator !== req.userData.userId) {
+    return next(new HttpError('Not authorized to update the task', 401))
+  }
+
+  const result = await updateTaskStatusById(tid, status)
+
+  if (!result) {
+    return next(
+      new HttpError('Could not update the task with the provided id', 404)
+    )
+  }
+  task.status = status
+
+  res.status(200).json({ task: task })
+}
+
 const deleteTask = async (req, res, next) => {
   const tid = req.params.tid
 
@@ -100,9 +135,4 @@ const deleteTask = async (req, res, next) => {
   res.status(200).json({ message: 'Task deleted' })
 }
 
-export {
-  getTask,
-  createTask,
-  updateTask,
-  deleteTask
-}
+export { getTask, createTask, updateTask, updateTaskStatus, deleteTask }
