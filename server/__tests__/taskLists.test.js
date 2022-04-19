@@ -56,16 +56,6 @@ test('GET /api/tasklists/userId returns task lists from user', async () => {
   expect(Array.isArray(response.body.taskLists)).toBeTruthy()
 })
 
-test('GET /api/tasklists/tasklist/taskListId returns a task list', async () => {
-  const response = await supertest(app)
-    .get('/api/tasklists/tasklist/' + createdTaskListId)
-    .set('Accept', 'application/json')
-  expect(response.status).toBe(200)
-  expect(response.body.taskList.id).toBeTruthy()
-  expect(response.body.taskList.name).toBe('Project work')
-  expect(response.body.taskList.creator).toBe(loggedInUser.userId)
-})
-
 test('DELETE /api/tasklists/taskListId deletes a task list', async () => {
   const response = await supertest(app)
     .delete('/api/tasklists/' + createdTaskListId)

@@ -16,12 +16,6 @@ const getUsersTaskLists = async (req, res, next) => {
   res.json({ taskLists: taskLists })
 }
 
-const getTaskList = async (req, res, next) => {
-  const lid = req.params.lid
-  const taskList = await getTaskListById(lid)
-  res.json({ taskList: taskList })
-}
-
 const getTasksFromTaskList = async (req, res, next) => {
   const lid = req.params.lid
   const tasks = await getAllTasksFromTaskList(lid)
@@ -75,7 +69,6 @@ const deleteTaskList = async (req, res, next) => {
 
 export {
   getUsersTaskLists,
-  getTaskList,
   getTasksFromTaskList,
   createTaskList,
   deleteTaskList
