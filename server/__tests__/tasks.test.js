@@ -50,6 +50,7 @@ test('POST /api/tasks creates a task ', async () => {
       'Finish building the backend for web development course project',
     // Whitout .000Z timestamp will create a datetime that's 3 hours behind
     deadline: '2022-04-01T18:00:00.000Z',
+    status: 0,
     list_id: createdTaskListId
   }
 
@@ -65,6 +66,7 @@ test('POST /api/tasks creates a task ', async () => {
     'Finish building the backend for web development course project'
   )
   expect(response.body.task.deadline).toBe('2022-04-01T18:00:00.000Z')
+  expect(response.body.task.status).toBe(0)
   expect(response.body.task.list_id).toBe(createdTaskListId)
 
   createdTaskId = response.body.task.id
@@ -97,7 +99,7 @@ test('PATCH /api/tasks/taskId updates the task', async () => {
     title: 'Finish frontend',
     description:
       'Finish building the frontend for web development course project',
-    deadline: '2022-04-20T18:00:00'
+    deadline: '2022-04-20T18:00:00.000Z'
   }
 
   const response = await supertest(app)
@@ -111,13 +113,28 @@ test('PATCH /api/tasks/taskId updates the task', async () => {
   expect(response.body.task.description).toBe(
     'Finish building the frontend for web development course project'
   )
-  expect(response.body.task.deadline).toBe('2022-04-20T18:00:00')
+  expect(response.body.task.deadline).toBe('2022-04-20T18:00:00.000Z')
+})
+
+test('PATCH /api/tasks/status/taskId updates the status of a task', async () => {
+  const response = await supertest(app)
+    .patch('/api/tasks/status/' + createdTaskId)
+    .set('Accept', 'application/json')
+    .set('Authorization', 'Bearer ' + loggedInUser.token)
+    .send({ status: 1 })
+  expect(response.status).toBe(200)
+  expect(response.body.task.id).toBe(createdTaskId)
+  expect(response.body.task.title).toBe('Finish frontend')
+  expect(response.body.task.description).toBe(
+    'Finish building the frontend for web development course project'
+  )
+  expect(response.body.task.deadline).toBe('2022-04-20T18:00:00.000Z')
+  expect(response.body.task.status).toBe(1)
 })
 
 test('DELETE /api/tasks/taskId deletes the task', async () => {
   const response = await supertest(app)
     .delete('/api/tasks/' + createdTaskId)
-    .set('Accept', 'application/json')
     .set('Authorization', 'Bearer ' + loggedInUser.token)
   expect(response.status).toBe(200)
   expect(response.body.message).toBe('Task deleted')
