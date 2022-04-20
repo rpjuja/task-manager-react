@@ -19,9 +19,11 @@ const Users = () => {
       try {
         let users
         if (auth.isAdmin) {
-          users = await sendRequest(`http://localhost:5000/api/users/`)
+          users = await sendRequest(`${process.env.REACT_APP_BACKEND}/users/`)
         } else {
-          users = await sendRequest(`http://localhost:5000/api/users/${userId}`)
+          users = await sendRequest(
+            `${process.env.REACT_APP_BACKEND}/users/${userId}`
+          )
         }
         setUserData(users)
       } catch (err) {}

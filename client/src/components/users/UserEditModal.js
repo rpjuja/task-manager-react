@@ -7,10 +7,7 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import { useForm } from '../../hooks/form-hook'
 import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
-import {
-  VALIDATOR_MINLENGTH,
-  VALIDATOR_MAXLENGTH
-} from '../../util/validators'
+import { VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH } from '../../util/validators'
 
 import './UserEditModal.css'
 
@@ -52,7 +49,7 @@ const UserEditModal = (props) => {
   const editHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/users/${props.id}`,
         'PATCH',
         JSON.stringify({
           name: formState.inputs.name.value,

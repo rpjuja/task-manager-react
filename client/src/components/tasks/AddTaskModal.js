@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import Input from '../input/Input'
 import Button from '../button/Button'
@@ -48,7 +48,7 @@ const AddTaskModal = (props) => {
   const addTaskHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasks/`,
+        `${process.env.REACT_APP_BACKEND}/tasks/`,
         'POST',
         JSON.stringify({
           title: formState.inputs.title.value,

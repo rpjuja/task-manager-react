@@ -20,7 +20,7 @@ const UserItem = (props) => {
   const removeUserHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/users/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/users/${props.id}`,
         'DELETE',
         {
           'Content-Type': 'application/json',

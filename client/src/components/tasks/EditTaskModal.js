@@ -69,7 +69,7 @@ const EditTaskModal = (props) => {
   const editHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasks/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/tasks/${props.id}`,
         'PATCH',
         JSON.stringify({
           title: formState.inputs.title.value,

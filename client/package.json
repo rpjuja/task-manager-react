@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^13.5.0",
+    "cross-env": "^7.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.2.2",
@@ -14,9 +15,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env REACT_APP_BACKEND=http://localhost:5000/api react-scripts start",
+    "build:dev": "cross-env REACT_APP_BACKEND=http://localhost:5000/api react-scripts build",
+    "build:prod": "react-scripts build",
+    "lint": "npx eslint src/*.js",
     "test": "react-scripts test",
+    "test:ci": "npm test -- --watchAll=false",
+    "test:coverage": "npm test -- --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

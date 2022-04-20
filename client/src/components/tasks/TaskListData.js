@@ -20,7 +20,7 @@ const TaskListData = (props) => {
     const fetchTasks = async () => {
       try {
         const res = await sendRequest(
-          `http://localhost:5000/api/tasklists/${props.selectedList}/tasks`
+          `${process.env.REACT_APP_BACKEND}/tasklists/${props.selectedList}/tasks`
         )
         setTaskData(res.tasks)
       } catch (err) {}
@@ -63,7 +63,7 @@ const TaskListData = (props) => {
         handleClose={() => setShowAddModal(false)}
         update={updateList}
       />
-      {!isLoading && taskData && (
+      {taskData && (
         <div className="tasks-grid">
           <div className="task-col-one">
             <h2>Backlog</h2>

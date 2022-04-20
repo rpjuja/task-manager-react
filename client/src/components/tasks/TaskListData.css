@@ -30,17 +30,13 @@
     background: lightgrey;
 }
 
+
 /*
-.task-col-one:first-child,
-.task-col-two:first-child,
-.task-col-three:first-child {
+:is(.task-col-one, .task-col-two, .task-col-three):first-child {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
-
-.task-col-one:last-child,
-.task-col-two:last-child,
-.task-col-three:last-child {
+:is(.task-col-one, .task-col-two, .task-col-three):last-child {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }

@@ -47,7 +47,7 @@ const TaskCard = (props) => {
     setShowDeleteConfirmationModal(false)
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasks/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/tasks/${props.id}`,
         'DELETE',
         null, // No body
         { Authorization: 'Bearer ' + auth.token }
@@ -60,7 +60,7 @@ const TaskCard = (props) => {
     try {
       console.log(status)
       await sendRequest(
-        `http://localhost:5000/api/tasks/status/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/tasks/status/${props.id}`,
         'PATCH',
         JSON.stringify({
           status: status
