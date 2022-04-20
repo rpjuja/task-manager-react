@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import Input from '../input/Input'
 import Button from '../button/Button'
@@ -7,7 +7,11 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import { useForm } from '../../hooks/form-hook'
 import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
-import { VALIDATOR_REQUIRE } from '../../util/validators'
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_MAXLENGTH
+} from '../../util/validators'
 
 import './TaskModal.css'
 
@@ -66,7 +70,7 @@ const AddTaskModal = (props) => {
     } catch (e) {}
   }
 
-  const onAdd = () => {
+  const onAddTask = () => {
     addTaskHandler()
     props.handleClose()
   }
@@ -82,7 +86,7 @@ const AddTaskModal = (props) => {
             id="title"
             type="text"
             label="Title"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(50)]}
             errorText="Title has to be 1-50 characters"
             initialValue=""
             initialValid={false}
@@ -93,7 +97,7 @@ const AddTaskModal = (props) => {
             id="description"
             type="text"
             label="Description"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(500)]}
             errorText="Description has to be 1-50 characters"
             initialValue=""
             initialValid={false}
@@ -129,7 +133,7 @@ const AddTaskModal = (props) => {
               <Button danger onClick={props.handleClose}>
                 Close
               </Button>
-              <Button disabled={!formState.isValid} onClick={onAdd}>
+              <Button disabled={!formState.isValid} onClick={onAddTask}>
                 Add Task
               </Button>
             </div>

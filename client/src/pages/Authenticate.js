@@ -10,7 +10,7 @@ import { useForm } from '../hooks/form-hook'
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE
+  VALIDATOR_MAXLENGTH
 } from '../util/validators'
 
 import './Authenticate.css'
@@ -109,7 +109,7 @@ const Authenticate = (props) => {
               id="name"
               type="text"
               label="Name"
-              validators={[VALIDATOR_REQUIRE()]}
+              validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(100)]}
               errorText="Enter a name"
               onInput={inputHandler}
             />
@@ -119,7 +119,7 @@ const Authenticate = (props) => {
             id="email"
             type="email"
             label="Email"
-            validators={[VALIDATOR_EMAIL()]}
+            validators={[VALIDATOR_EMAIL(), VALIDATOR_MAXLENGTH(100)]}
             errorText="Enter a valid email address"
             onInput={inputHandler}
           />
