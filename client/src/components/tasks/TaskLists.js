@@ -21,7 +21,7 @@ const TaskLists = (props) => {
     setShowDeleteConfirmationModal(false)
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasklists/${taskListId}`,
+        `${process.env.REACT_APP_BACKEND}/tasklists/${taskListId}`,
         'DELETE',
         null,
         {

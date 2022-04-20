@@ -25,7 +25,7 @@ const Tasks = () => {
     const fetchTaskLists = async () => {
       try {
         const res = await sendRequest(
-          `http://localhost:5000/api/tasklists/${userId}`
+          `${process.env.REACT_APP_BACKEND}/tasklists/${userId}`
         )
         setTaskLists(res.taskLists)
         setSelectedList(res.taskLists[0].id)
@@ -37,10 +37,9 @@ const Tasks = () => {
   const addTaskListHandler = async (listName) => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasklists`,
+        `${process.env.REACT_APP_BACKEND}/tasklists`,
         'POST',
         JSON.stringify({
-          // TODO: Get name from user
           name: listName,
           creator: auth.userId
         }),

@@ -7,7 +7,11 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import { useForm } from '../../hooks/form-hook'
 import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
-import { VALIDATOR_REQUIRE } from '../../util/validators'
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH,
+  VALIDATOR_MAXLENGTH
+} from '../../util/validators'
 
 import './TaskModal.css'
 
@@ -65,7 +69,7 @@ const EditTaskModal = (props) => {
   const editHandler = async () => {
     try {
       await sendRequest(
-        `http://localhost:5000/api/tasks/${props.id}`,
+        `${process.env.REACT_APP_BACKEND}/tasks/${props.id}`,
         'PATCH',
         JSON.stringify({
           title: formState.inputs.title.value,
@@ -101,7 +105,7 @@ const EditTaskModal = (props) => {
             id="title"
             type="text"
             label="Title"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(50)]}
             errorText="Title has to be 1-50 characters"
             initialValue={props.title}
             initialValid={true}
@@ -112,7 +116,7 @@ const EditTaskModal = (props) => {
             id="description"
             type="text"
             label="Description"
-            validators={[VALIDATOR_REQUIRE()]}
+            validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(500)]}
             errorText="Description has to be 1-500 characters"
             initialValue={props.description}
             initialValid={true}

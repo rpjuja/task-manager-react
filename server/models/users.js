@@ -27,7 +27,10 @@ const getUserById = async (id) => {
 }
 
 const getUserArrayById = async (id) => {
-  const user = await pool.query('SELECT * FROM users WHERE id=$1', [id])
+  const user = await pool.query(
+    'SELECT id, name, email, isAdmin FROM users WHERE id=$1',
+    [id]
+  )
   console.log(user)
   return user.rows
 }

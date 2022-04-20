@@ -10,7 +10,7 @@ import { useForm } from '../hooks/form-hook'
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE
+  VALIDATOR_MAXLENGTH
 } from '../util/validators'
 
 import './Authenticate.css'
@@ -37,7 +37,7 @@ const Authenticate = (props) => {
     if (isLoginMode) {
       try {
         const response = await sendRequest(
-          'http://localhost:5000/api/users/login',
+          `${process.env.REACT_APP_BACKEND}/users/login`,
           'POST',
           JSON.stringify({
             email: formState.inputs.email.value,
@@ -53,7 +53,7 @@ const Authenticate = (props) => {
     } else {
       try {
         const response = await sendRequest(
-          'http://localhost:5000/api/users/signup',
+          `${process.env.REACT_APP_BACKEND}/users/signup`,
           'POST',
           JSON.stringify({
             name: formState.inputs.name.value,
@@ -109,7 +109,7 @@ const Authenticate = (props) => {
               id="name"
               type="text"
               label="Name"
-              validators={[VALIDATOR_REQUIRE()]}
+              validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(100)]}
               errorText="Enter a name"
               onInput={inputHandler}
             />
@@ -119,7 +119,7 @@ const Authenticate = (props) => {
             id="email"
             type="email"
             label="Email"
-            validators={[VALIDATOR_EMAIL()]}
+            validators={[VALIDATOR_EMAIL(), VALIDATOR_MAXLENGTH(100)]}
             errorText="Enter a valid email address"
             onInput={inputHandler}
           />
