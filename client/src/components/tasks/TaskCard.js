@@ -16,19 +16,32 @@ const TaskCard = (props) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
-  // State and ref for opening and closing dropdown menu correctly
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const dropdown = createRef()
+  // States and refs for opening and closing dropdown menus correctly
+  const [cardDropdownOpen, setCardDropdownOpen] = useState(false)
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false)
+  const cardDropdownRef = createRef()
+  const statusDropdownRef = createRef()
 
   useEffect(() => {
-    // Close dropdown menu if user clicks outside the menu
     const handleClickOutside = (event) => {
-      if (dropdown.current && !dropdown.current.contains(event.target)) {
-        setDropdownOpen(false)
+      // Close dropdown menu(s) if user clicks outside the menu
+      if (
+        cardDropdownRef.current &&
+        !cardDropdownRef.current.contains(event.target)
+      ) {
+        setCardDropdownOpen(false)
+        setStatusDropdownOpen(false)
+      }
+      // Close status dropdown menu if user clicks something else on the card dropdown menu
+      if (
+        statusDropdownRef.current &&
+        !statusDropdownRef.current.contains(event.target)
+      ) {
+        setStatusDropdownOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
-  }, [dropdown, dropdownOpen])
+  }, [cardDropdownRef, cardDropdownOpen, statusDropdownRef, statusDropdownOpen])
 
   const removeTaskHandler = async () => {
     setShowDeleteConfirmationModal(false)
@@ -38,6 +51,24 @@ const TaskCard = (props) => {
         'DELETE',
         null, // No body
         { Authorization: 'Bearer ' + auth.token }
+      )
+      props.update()
+    } catch (err) {}
+  }
+
+  const updateTaskStatus = async (status) => {
+    try {
+      console.log(status)
+      await sendRequest(
+        `http://localhost:5000/api/tasks/status/${props.id}`,
+        'PATCH',
+        JSON.stringify({
+          status: status
+        }),
+        {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + auth.token
+        }
       )
       props.update()
     } catch (err) {}
@@ -98,24 +129,57 @@ const TaskCard = (props) => {
         <p>There's no going back.</p>
       </Modal>
       <li className="task-card">
-        <div className="dropdown" ref={dropdown}>
+        <div className="dropdown" ref={cardDropdownRef}>
           <button
             className="dropbtn"
             onClick={() => {
-              setDropdownOpen(!dropdownOpen)
+              setCardDropdownOpen(!cardDropdownOpen)
             }}
           >
             ☰
           </button>
-          {dropdownOpen && (
+          {cardDropdownOpen && (
             <div className="dropdown-content">
-              <button onClick={() => {}}>Swith Status</button>
+              <button
+                onClick={() => {
+                  setStatusDropdownOpen(!statusDropdownOpen)
+                }}
+              >
+                Swith Status
+              </button>
               <button onClick={() => setShowEditModal(true)}>Edit</button>
               <button onClick={() => setShowDeleteConfirmationModal(true)}>
                 Delete
               </button>
             </div>
           )}
+          <div ref={statusDropdownRef}>
+            {statusDropdownOpen && (
+              <div className="dropdown-content">
+                <button
+                  onClick={() => {
+                    updateTaskStatus(0)
+                  }}
+                >
+                  Backlog
+                </button>
+                <button
+                  onClick={() => {
+                    updateTaskStatus(1)
+                  }}
+                >
+                  In Progress
+                </button>
+                <button
+                  onClick={() => {
+                    updateTaskStatus(2)
+                  }}
+                >
+                  Done
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="task-card__info">
           <h3>{props.title}</h3>

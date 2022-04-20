@@ -40,7 +40,6 @@ const Tasks = () => {
         `http://localhost:5000/api/tasklists`,
         'POST',
         JSON.stringify({
-          // TODO: Get name from user
           name: listName,
           creator: auth.userId
         }),
