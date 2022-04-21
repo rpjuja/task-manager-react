@@ -17,6 +17,22 @@ const TaskLists = (props) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
 
+  if (props.lists.length === 0 && !props.listsLoading) {
+    return (
+      <div className="no-workspace">
+        <h2>Create your first workspace</h2>
+        <div className="first-ws-input">
+          <input
+            id="ws-name-input"
+            type="text"
+            onChange={(e) => setNewListName(e.target.value)}
+          />
+        </div>
+        <Button onClick={() => props.newTaskList(newListName)}>Create</Button>
+      </div>
+    )
+  }
+
   const removeTaskListHandler = async (taskListId) => {
     setShowDeleteConfirmationModal(false)
     try {
@@ -64,55 +80,57 @@ const TaskLists = (props) => {
       >
         <p>You will lose all tasks inside the workspace as well.</p>
       </Modal>
-      <div className="task-list-select">
-        <label htmlFor="list-select">
-          <h3>Select workspace</h3>
-        </label>
-        <div className="select-and-buttons">
-          <select
-            id="list-select"
-            onChange={(e) => {
-              props.changeSelectedList(e.target.value)
-            }}
-          >
-            {props.items.map((tasklist) => {
-              return (
-                <option value={tasklist.id} key={tasklist.id}>
-                  {tasklist.name}
-                </option>
-              )
-            })}
-          </select>
-          <div>
-            <Button
-              delete
-              danger
-              onClick={() => setShowDeleteConfirmationModal(true)}
-            >
-              <i className="fa fa-trash"></i>
-            </Button>
-            <Button
-              onClick={() => {
-                setShowInput(!showInput)
+      {props.lists.length > 0 && (
+        <div className="task-list-select">
+          <label htmlFor="list-select">
+            <h3>Select workspace</h3>
+          </label>
+          <div className="select-and-buttons">
+            <select
+              id="list-select"
+              onChange={(e) => {
+                props.changeSelectedList(e.target.value)
               }}
             >
-              <i className="fa fa-plus"></i>
-            </Button>
+              {props.lists.map((tasklist) => {
+                return (
+                  <option value={tasklist.id} key={tasklist.id}>
+                    {tasklist.name}
+                  </option>
+                )
+              })}
+            </select>
+            <div>
+              <Button
+                delete
+                danger
+                onClick={() => setShowDeleteConfirmationModal(true)}
+              >
+                <i className="fa fa-trash"></i>
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowInput(!showInput)
+                }}
+              >
+                <i className="fa fa-plus"></i>
+              </Button>
+            </div>
           </div>
+          {showInput && (
+            <div className="new-ws-input">
+              <div className="arrow-up"></div>
+              <input
+                type="text"
+                onChange={(e) => setNewListName(e.target.value)}
+              />
+              <button onClick={() => props.newTaskList(newListName)}>
+                + Add Task List
+              </button>
+            </div>
+          )}
         </div>
-        {showInput && (
-          <div className="new-ws-input">
-            <div className="arrow-up"></div>
-            <input
-              type="text"
-              onChange={(e) => setNewListName(e.target.value)}
-            />
-            <button onClick={() => props.newTaskList(newListName)}>
-              + Add Task List
-            </button>
-          </div>
-        )}
-      </div>
+      )}
     </React.Fragment>
   )
 }

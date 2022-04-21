@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import TaskListData from '../components/tasks/TaskListData'
 import TaskLists from '../components/tasks/TaskLists'
 
-import Button from '../components/button/Button'
 import ErrorModal from '../components/modal/ErrorModal'
 import LoadingSpinner from '../components/loadingspinner/LoadingSpinner'
 import { useHttpClient } from '../hooks/http-hook'
@@ -16,8 +15,7 @@ const Tasks = () => {
   const auth = useContext(AuthContext)
   const userId = auth.userId
   const [taskLists, setTaskLists] = useState([])
-  const [selectedList, setSelectedList] = useState()
-  const [newListName, setNewListName] = useState()
+  const [selectedList, setSelectedList] = useState(false)
   // State used to update the task lists if a task list is added or deleted
   const [toggle, setToggle] = useState(false)
 
@@ -28,7 +26,11 @@ const Tasks = () => {
           `${process.env.REACT_APP_BACKEND}/tasklists/${userId}`
         )
         setTaskLists(res.taskLists)
-        setSelectedList(res.taskLists[0].id)
+        // Keep selectedList as false if there is no taskLists
+        // so that taskListData knows not to render anything
+        if (res.taskLists.length > 0) {
+          setSelectedList(res.taskLists[0].id)
+        } else setSelectedList(false)
       } catch (err) {}
     }
     fetchTaskLists()
@@ -56,22 +58,6 @@ const Tasks = () => {
     setToggle((prevState) => !prevState)
   }
 
-  if (!isLoading && !error && taskLists.length === 0) {
-    return (
-      <div className="no-workspace">
-        <h2>Create your first workspace</h2>
-        <div className="ws-input">
-          <input
-            id="ws-name-input"
-            type="text"
-            onChange={(e) => setNewListName(e.target.value)}
-          />
-        </div>
-        <Button onClick={() => addTaskListHandler(newListName)}>Create</Button>
-      </div>
-    )
-  }
-
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -84,11 +70,12 @@ const Tasks = () => {
         <div className="task-screen">
           <TaskListData selectedList={selectedList} update={updateTaskLists} />
           <TaskLists
-            items={taskLists}
+            lists={taskLists}
             selectedList={selectedList}
             changeSelectedList={setSelectedList}
             newTaskList={addTaskListHandler}
             update={updateTaskLists}
+            listsLoading={isLoading}
           />
         </div>
       )}

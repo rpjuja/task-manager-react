@@ -40,6 +40,21 @@
     right: 30px;
 }
 
+.no-workspace {
+    display: block;
+    text-align: center;
+}
+
+.no-workspace h2 {
+    margin-bottom: 1rem;
+}
+
+.first-ws-input > * {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    width: 15rem;
+}
+
 .new-ws-input input {
     width: 8rem;
     font-size: 0.9rem;
