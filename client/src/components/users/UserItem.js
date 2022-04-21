@@ -13,7 +13,7 @@ import './UserItem.css'
 const UserItem = (props) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const auth = useContext(AuthContext)
-  const [modal, setModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
 
@@ -27,7 +27,7 @@ const UserItem = (props) => {
           Authorization: 'Bearer ' + auth.token
         }
       )
-      // Logout if removing own account
+      // Logout if user removes own account
       if (props.id === auth.userId) {
         auth.logout()
       }
@@ -36,8 +36,8 @@ const UserItem = (props) => {
   }
 
   const userPrivileges = () => {
-    if (props.isAdmin) return <h2>Admin</h2>
-    else return <h2>Standard</h2>
+    if (props.isAdmin) return <h2>Admin User</h2>
+    else return <h2>Standard User</h2>
   }
 
   return (
@@ -59,11 +59,11 @@ const UserItem = (props) => {
                 id={props.id}
                 name={props.name}
                 password={props.password}
-                show={modal}
-                handleClose={() => setModal(false)}
+                show={showEditModal}
+                handleClose={() => setShowEditModal(false)}
                 update={props.update}
               />
-              <Button onClick={() => setModal(true)}>Edit</Button>
+              <Button onClick={() => setShowEditModal(true)}>Edit</Button>
             </div>
           )}
           {(auth.userId === props.id || auth.isAdmin) && (
@@ -86,9 +86,10 @@ const UserItem = (props) => {
                   </React.Fragment>
                 }
               >
-                <p>You will lose all tasks inside the workspace as well.</p>
+                <p>You will lose all tasks and workspaces as well.</p>
               </Modal>
               <Button
+                dataTestid="user-delete-button"
                 delete
                 danger
                 onClick={() => {

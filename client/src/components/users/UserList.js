@@ -4,16 +4,16 @@ import UserItem from './UserItem'
 import './UserList.css'
 
 const UserList = (props) => {
-  if (props.items.length > 0) {
+  if (props.users.length > 0) {
     // Sort alphabetically
-    props.items.sort(function (a, b) {
+    props.users.sort(function (a, b) {
       return a.name.localeCompare(b.name)
     })
   }
 
   return (
     <div className="user-list">
-      {props.items.map((user) => (
+      {props.users.map((user) => (
         <UserItem
           key={user.id}
           id={user.id}
