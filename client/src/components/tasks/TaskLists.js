@@ -17,13 +17,14 @@ const TaskLists = (props) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false)
 
-  if (props.lists.length === 0 && !props.listsLoading) {
+  if (props.lists.length === 0 || props.listsLoading) {
     return (
       <div className="no-workspace">
         <h2>Create your first workspace</h2>
         <div className="first-ws-input">
           <input
             id="ws-name-input"
+            aria-label="ws-name-input"
             type="text"
             onChange={(e) => setNewListName(e.target.value)}
           />
@@ -88,6 +89,7 @@ const TaskLists = (props) => {
           <div className="select-and-buttons">
             <select
               id="list-select"
+              aria-label="list-select"
               onChange={(e) => {
                 props.changeSelectedList(e.target.value)
               }}
@@ -102,6 +104,7 @@ const TaskLists = (props) => {
             </select>
             <div>
               <Button
+                dataTestid="delete-ws-button"
                 delete
                 danger
                 onClick={() => setShowDeleteConfirmationModal(true)}
@@ -109,6 +112,7 @@ const TaskLists = (props) => {
                 <i className="fa fa-trash"></i>
               </Button>
               <Button
+                dataTestid="new-ws-button"
                 onClick={() => {
                   setShowInput(!showInput)
                 }}
@@ -118,14 +122,15 @@ const TaskLists = (props) => {
             </div>
           </div>
           {showInput && (
-            <div className="new-ws-input">
+            <div className="new-ws-name-input">
               <div className="arrow-up"></div>
               <input
                 type="text"
+                aria-label="new-ws-name-input"
                 onChange={(e) => setNewListName(e.target.value)}
               />
               <button onClick={() => props.newTaskList(newListName)}>
-                + Add Task List
+                + Add workspace
               </button>
             </div>
           )}

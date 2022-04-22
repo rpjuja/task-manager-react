@@ -145,7 +145,7 @@ const TaskCard = (props) => {
                   setStatusDropdownOpen(!statusDropdownOpen)
                 }}
               >
-                Swith Status
+                Switch Status
               </button>
               <button onClick={() => setShowEditModal(true)}>Edit</button>
               <button onClick={() => setShowDeleteConfirmationModal(true)}>
@@ -155,28 +155,34 @@ const TaskCard = (props) => {
           )}
           <div ref={statusDropdownRef}>
             {statusDropdownOpen && (
-              <div className="dropdown-content">
-                <button
-                  onClick={() => {
-                    updateTaskStatus(0)
-                  }}
-                >
-                  Backlog
-                </button>
-                <button
-                  onClick={() => {
-                    updateTaskStatus(1)
-                  }}
-                >
-                  In Progress
-                </button>
-                <button
-                  onClick={() => {
-                    updateTaskStatus(2)
-                  }}
-                >
-                  Done
-                </button>
+              <div className="dropdown-status-content">
+                {props.status !== 0 && (
+                  <button
+                    onClick={() => {
+                      updateTaskStatus(0)
+                    }}
+                  >
+                    Backlog
+                  </button>
+                )}
+                {props.status !== 1 && (
+                  <button
+                    onClick={() => {
+                      updateTaskStatus(1)
+                    }}
+                  >
+                    In Progress
+                  </button>
+                )}
+                {props.status !== 2 && (
+                  <button
+                    onClick={() => {
+                      updateTaskStatus(2)
+                    }}
+                  >
+                    Done
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -191,7 +197,7 @@ const TaskCard = (props) => {
             Less Details
           </a>
           <div className="details">
-            <p>{props.description}</p>
+            <p data-testid="task-description">{props.description}</p>
           </div>
         </div>
       </li>

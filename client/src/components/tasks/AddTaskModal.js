@@ -115,6 +115,7 @@ const AddTaskModal = (props) => {
                 initialValue=""
                 initialValid={false}
                 onInput={inputHandler}
+                dataTestid="add-date-input"
               />
             </div>
             <div className="table-cell">
@@ -127,6 +128,7 @@ const AddTaskModal = (props) => {
                 initialValue=""
                 initialValid={false}
                 onInput={inputHandler}
+                dataTestid="add-time-input"
               />
             </div>
             <div className="buttons">

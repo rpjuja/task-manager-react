@@ -87,7 +87,7 @@ const TaskListData = (props) => {
                 setShowAddModal(true)
               }}
             >
-              + Add Task
+              + Add task
             </button>
           </div>
         </div>
@@ -109,7 +109,7 @@ const TaskListData = (props) => {
                 setShowAddModal(true)
               }}
             >
-              + Add Task
+              + Add task
             </button>
           </div>
         </div>
@@ -131,7 +131,7 @@ const TaskListData = (props) => {
                 setShowAddModal(true)
               }}
             >
-              + Add Task
+              + Add task
             </button>
           </div>
         </div>
