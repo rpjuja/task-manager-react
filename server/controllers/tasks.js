@@ -87,6 +87,8 @@ const updateTaskStatus = async (req, res, next) => {
     )
   }
 
+  console.log(process.env.DB_PASSWORD)
+
   const { status } = req.body
   const tid = req.params.tid
 

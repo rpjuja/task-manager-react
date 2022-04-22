@@ -1,0 +1,11 @@
+{
+  "env": {
+    "DB_NAME": "taskmanagerDB",
+    "DB_USER": "user",
+    "DB_HOST": "localhost",
+    "DB_PASSWORD": "pass",
+    "DB_PORT": 5432,
+    "JWT_KEY": "this_is_my_supersecret_key",
+    "API_PORT": 5000
+  }
+}

@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  taskmanager-database:
+  taskmanagerDB:
     image: postgres:alpine
     environment:
       POSTGRES_USER: user
