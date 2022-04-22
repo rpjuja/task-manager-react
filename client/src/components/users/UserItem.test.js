@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import UserItem from './UserItem.js'
-import { AuthContext } from '../../context/auth-context'
+import { AuthContext } from '../../context/auth-context.js'
 
 describe('UserItem', () => {
   const DUMMY_USER = {

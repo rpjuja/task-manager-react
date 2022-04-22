@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import TaskListData from './TaskListData.js'
-import { AuthContext } from '../../context/auth-context'
+import { AuthContext } from '../../context/auth-context.js'
 
 describe('TaskLists', () => {
   const DUMMY_USER = {
