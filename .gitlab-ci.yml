@@ -65,9 +65,9 @@ deploy_job:
     - docker:dind
   script:
     # Prepare env variables
-    - export CLIENT_IMAGE="${CI_REGISTERY_IMAGE}/client"
-    - export API_IMAGE="${CI_REGISTERY_IMAGE}/api"
-    - export DB_IMAGE="${CI_REGISTERY_IMAGE}/db"
+    - export CLIENT_IMAGE="${CI_REGISTRY_IMAGE}/client"
+    - export API_IMAGE="${CI_REGISTRY_IMAGE}/api"
+    - export DB_IMAGE="${CI_REGISTRY_IMAGE}/db"
     - echo "${CLIENT_IMAGE}"
     - echo "${API_IMAGE}"
     - echo "${DB_IMAGE}"
