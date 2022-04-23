@@ -10,7 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 
 app.use((req, res, next) => {
-  const corsWhitelist = ['http://localhost:3000', 'http://172.16.5.50:3000/']
+  const corsWhitelist = ['http://localhost:3000', 'http://172.16.5.50/']
   if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
     res.header('Access-Control-Allow-Origin', req.headers.origin)
     res.setHeader(
