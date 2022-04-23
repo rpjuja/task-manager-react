@@ -1,4 +1,5 @@
 variables:
+  REMOTE_HOST: deploy@172.16.5.50
   REMOTE_DIR: app
 
 stages:
@@ -71,6 +72,10 @@ deploy_job:
     - echo "${CLIENT_IMAGE}"
     # Install needed software
     - apk update && apk add rsync openssh
+    # Copy the student-user SSH key to be able to log in to the VM
+    - mkdir -p ~/.ssh && (umask  077 ; echo "${DEPLOY_KEY_PRIVATE}" | base64 -d > ~/.ssh/id_rsa)
+    # Disable key checking
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # Build the images
     - docker build -f client/Dockerfile -t "${CLIENT_IMAGE}" ./client
     - docker build -f server/Dockerfile -t "${API_IMAGE}" ./server
@@ -91,6 +96,16 @@ deploy_job:
     - echo "DB_PASSWORD=${DB_PASSWORD}" >> "${REMOTE_DIR}/.env"
     - echo "JWT_KEY=${JWT_KEY}" >> "${REMOTE_DIR}/.env"
     - cat "${REMOTE_DIR}/.env"
+    # Copy files to server
+    - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:/"
+    # Open SSH connection and start the containers
+    - ssh ${REMOTE_HOST} /bin/bash `
+      echo ${REMOTE_DIR};
+      cd ~/REMOTE_DIR;
+      docker login -u gitlab-ci-token -p CI_JOB_TOKEN $CI_REGISTRY;
+      docker-compose pull;
+      docker-compose up -d --force-recreate
+      `
   only:
     - main
   when: manual
