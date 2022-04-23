@@ -81,7 +81,7 @@ deploy_job:
     - docker build -f server/Dockerfile -t "${API_IMAGE}" ./server
     - docker build -f database/Dockerfile -t "${DB_IMAGE}" ./database
     # Login to GitLab
-    - docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTRY}"
+    - docker login -u gitlab-ci-token -p "${CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Push images to GitLab registery
     - docker push "${CLIENT_IMAGE}"
     - docker push "${API_IMAGE}"
@@ -102,7 +102,7 @@ deploy_job:
     - ssh ${REMOTE_HOST} /bin/bash `
       echo ${REMOTE_DIR};
       cd ~/REMOTE_DIR;
-      docker login -u gitlab-ci-token -p CI_JOB_TOKEN $CI_REGISTRY;
+      docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY;
       docker-compose pull;
       docker-compose up -d --force-recreate
       `
