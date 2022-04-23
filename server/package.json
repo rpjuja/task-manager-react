@@ -7,7 +7,8 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit",
     "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules npx jest --forceExit --coverage",
-    "start": "nodemon -r dotenv/config server.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "lint": "npx eslint server.js __tests__/*.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js",
     "lint:fix": "npx eslint --fix server.js __tests__/*.js controllers/*.js database/*.js middleware/*.js models/*.js routes/*.js"
   },

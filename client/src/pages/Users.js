@@ -17,15 +17,16 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        let users
+        let res
         if (auth.isAdmin) {
-          users = await sendRequest(`${process.env.REACT_APP_BACKEND}/users/`)
+          res = await sendRequest(`${process.env.REACT_APP_BACKEND}/users/`)
         } else {
-          users = await sendRequest(
+          res = await sendRequest(
             `${process.env.REACT_APP_BACKEND}/users/${userId}`
           )
         }
-        setUserData(users)
+        console.log(res.users)
+        setUserData(res.users)
       } catch (err) {}
     }
     fetchUsers()
@@ -45,7 +46,7 @@ const Users = () => {
         </div>
       )}
       {!isLoading && userData && (
-        <UserList items={userData.users} update={updateList} />
+        <UserList users={userData} update={updateList} />
       )}
     </React.Fragment>
   )

@@ -22,11 +22,22 @@
     flex-wrap: wrap;
 }
 
-.new-ws-input {
+.new-ws-name-input {
     position: relative;
     border: 1px solid gray;
     padding: 0.5rem;
     background-color: lightgray;
+}
+
+.new-ws-name-input input {
+    width: 8rem;
+    font-size: 0.9rem;
+    margin: 0.3rem;
+}
+
+.new-ws-name-input button { 
+    padding: 0.1rem;
+    margin: 0.3rem;
 }
 
 .arrow-up {
@@ -40,13 +51,17 @@
     right: 30px;
 }
 
-.new-ws-input input {
-    width: 8rem;
-    font-size: 0.9rem;
-    margin: 0.3rem;
+.no-workspace {
+    display: block;
+    text-align: center;
 }
 
-.new-ws-input button { 
-    padding: 0.1rem;
-    margin: 0.3rem;
+.no-workspace h2 {
+    margin-bottom: 1rem;
+}
+
+.first-ws-input > * {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    width: 15rem;
 }

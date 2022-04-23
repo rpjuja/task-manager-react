@@ -1,0 +1,55 @@
+stages:
+  - test
+  - build
+
+test-frontend-branch-job:
+  image: node:lts-slim
+  stage: test
+  script:
+    - echo "Running frontend quality assurance"
+    - cd client
+    - npm install
+    - npm run lint
+    - npm run test:ci
+    - echo "Frontend QA complete"
+  except:
+    - main
+
+test-frontend-main-job:
+  image: node:lts-slim
+  stage: test
+  script:
+    - echo "Running frontend quality assurance"
+    - cd client
+    - npm install
+    - npm run test:coverage
+    - echo "Frontend QA complete"
+  only:
+    - main
+
+test-backend-job:
+  image: node:lts-slim
+  stage: test
+  script:
+    - echo "Running backend quality assurance"
+    - cd server
+    - npm install
+    - npm run lint
+    - echo "Backend QA complete"
+  except:
+    - main
+
+build_job:
+  image: node:lts-slim
+  stage: build
+  script:
+    - echo "Building React frontend..."
+    - cd client
+    - npm install
+    - npm run build:prod
+    - echo "Frontend build complete"
+  artifacts:
+    paths:
+      - ./client/build
+  only:
+    - main

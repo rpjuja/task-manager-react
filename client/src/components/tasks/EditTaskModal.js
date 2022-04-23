@@ -134,6 +134,7 @@ const EditTaskModal = (props) => {
                 initialValue={props.deadline.split('T')[0]}
                 initialValid={true}
                 onInput={inputHandler}
+                dataTestid="edit-date-input"
               />
             </div>
             <div className="table-cell">
@@ -146,6 +147,7 @@ const EditTaskModal = (props) => {
                 initialValue={props.deadline.split('T')[1].substring(0, 5)}
                 initialValid={true}
                 onInput={inputHandler}
+                dataTestid="edit-time-input"
               />
             </div>
             <div className="buttons">
