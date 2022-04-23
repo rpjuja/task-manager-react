@@ -99,13 +99,13 @@ deploy_job:
     # Copy files to server
     - rsync -r -v "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Open SSH connection and start the containers
-    - ssh ${REMOTE_HOST} /bin/bash `
-      echo $REMOTE_DIR;
-      cd /$REMOTE_DIR;
+    - ssh ${REMOTE_HOST} /bin/bash "
+      echo ${REMOTE_DIR};
+      cd ~/$REMOTE_DIR;
       docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY;
       docker-compose pull;
-      docker-compose up -d --force-recreate
-      `
+      docker-compose up -d --force-recreate;
+      "
   only:
     - main
   when: manual
