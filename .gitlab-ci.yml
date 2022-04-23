@@ -1,6 +1,10 @@
+variables:
+  REMOTE_DIR: app
+
 stages:
   - test
   - build
+  - deploy
 
 test-frontend-branch-job:
   image: node:lts-slim
@@ -53,3 +57,38 @@ build_job:
       - ./client/build
   only:
     - main
+
+deploy_job:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    # Prepare env variables
+    - export CLIENT_IMAGE="${CI_REGISTERY_IMAGE}/client"
+    - export API_IMAGE="${CI_REGISTERY_IMAGE}/api"
+    - export DB_IMAGE="${CI_REGISTERY_IMAGE}/db"
+    - echo "${CLIENT_IMAGE}"
+    - echo "${API_IMAGE}"
+    - echo "${DB_IMAGE}"
+    # Install needed software
+    - apk update && apk add rsync openssh
+    # Build the images
+    - docker build -f client/Dockerfile -t "${CLIENT_IMAGE}" ./client
+    - docker build -f server/Dockerfile -t "${API_IMAGE}" ./server
+    - docker build -f db/Dockerfile -t "${DB_IMAGE}" ./database
+    # Login to GitLab
+    - docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTERY}"
+    # Push images to GitLab registery
+    - docker push "${CLIENT_IMAGE}"
+    - docker push "${API_IMAGE}"
+    - docker push "${DB_IMAGE}"
+    # Crate a directory to be copied to the remote server
+    - mkdir "${REMOTE_DIR}"
+    - cp docker-compose.production.yml "${REMOTE_DIR}/docker-compose.yml"
+    - echo "CLIENT_IMAGE=${CLIENT_IMAGE}" >> "${REMOTE_DIR}/.env"
+    - echo "API_IMAGE=${API_IMAGE}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_IMAGE=${DB_IMAGE}" >> "${REMOTE_DIR}/.env"
+  only:
+    - main
+  when: manual
