@@ -27,7 +27,7 @@ test-frontend-main-job:
   only:
     - main
 
-test-backend-branch-job:
+test-backend-job:
   image: node:lts-slim
   stage: test
   script:
@@ -35,21 +35,8 @@ test-backend-branch-job:
     - cd server
     - npm install
     - npm run lint
-    - npm run test
     - echo "Backend QA complete"
   except:
-    - main
-
-test-backend-main-job:
-  image: node:lts-slim
-  stage: test
-  script:
-    - echo "Running backend quality assurance"
-    - cd server
-    - npm install
-    - npm run test:coverage
-    - echo "Backend QA complete"
-  only:
     - main
 
 build_job:
