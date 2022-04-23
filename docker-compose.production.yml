@@ -1,0 +1,30 @@
+version: '2.4'
+services:
+  frontend:
+    image: "${CLIENT_IMAGE}"
+    ports:
+      - "80:80"
+    environment:
+      REACT_APP_BACKEND: http://localhost:5000/api
+    restart: always
+  api:
+    image: "${API_IMAGE}"
+    environment:
+      DB_NAME: taskmanagerDB
+      DB_USER: ${DB_USER}
+      DB_HOST: db
+      DB_PASSWORD: ${PASSWORD}
+      DB_PORT: 5432
+      JWT_KEY: ${JWT_KEY}
+    ports:
+      - "5000:5000"
+    restart: always
+  db:
+    image: "${DB_IMAGE}"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_DB: taskmanagerDB
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data

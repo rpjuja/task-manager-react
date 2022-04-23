@@ -69,8 +69,6 @@ deploy_job:
     - export API_IMAGE="${CI_REGISTRY_IMAGE}/api"
     - export DB_IMAGE="${CI_REGISTRY_IMAGE}/db"
     - echo "${CLIENT_IMAGE}"
-    - echo "${API_IMAGE}"
-    - echo "${DB_IMAGE}"
     # Install needed software
     - apk update && apk add rsync openssh
     # Build the images
@@ -78,7 +76,7 @@ deploy_job:
     - docker build -f server/Dockerfile -t "${API_IMAGE}" ./server
     - docker build -f database/Dockerfile -t "${DB_IMAGE}" ./database
     # Login to GitLab
-    - docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTERY}"
+    - docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTRY}"
     # Push images to GitLab registery
     - docker push "${CLIENT_IMAGE}"
     - docker push "${API_IMAGE}"
@@ -89,6 +87,10 @@ deploy_job:
     - echo "CLIENT_IMAGE=${CLIENT_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "API_IMAGE=${API_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "DB_IMAGE=${DB_IMAGE}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_USER=${DB_USER}" >> "${REMOTE_DIR}/.env"
+    - echo "DB_PASSWORD=${DB_PASSWORD}" >> "${REMOTE_DIR}/.env"
+    - echo "JWT_KEY=${JWT_KEY}" >> "${REMOTE_DIR}/.env"
+    - cat "${REMOTE_DIR}/.env"
   only:
     - main
   when: manual
