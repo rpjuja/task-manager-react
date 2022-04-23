@@ -5,7 +5,7 @@ services:
     ports:
       - "80:80"
     environment:
-      REACT_APP_BACKEND: http://localhost:5000/api
+      REACT_APP_BACKEND: http://172.16.5.50:5000/api
     restart: always
   api:
     image: "${API_IMAGE}"
