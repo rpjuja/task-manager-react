@@ -78,7 +78,7 @@ deploy_job:
     - docker build -f server/Dockerfile -t "${API_IMAGE}" ./server
     - docker build -f db/Dockerfile -t "${DB_IMAGE}" ./database
     # Login to GitLab
-    docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTERY}"
+    - docker login -u gitlab-ci-token -p "{CI_JOB_TOKEN}" "${CI_REGISTERY}"
     # Push images to GitLab registery
     - docker push "${CLIENT_IMAGE}"
     - docker push "${API_IMAGE}"
