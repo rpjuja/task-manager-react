@@ -16,7 +16,7 @@
   "scripts": {
     "start": "cross-env REACT_APP_BACKEND=http://localhost:5000/api react-scripts start",
     "build:dev": "cross-env REACT_APP_BACKEND=http://localhost:5000/api react-scripts build",
-    "build:prod": "react-scripts build",
+    "build:prod": "cross-env REACT_APP_BACKEND=http://172.16.5.50:5000/api react-scripts build",
     "lint": "npx eslint src/*.js",
     "test": "react-scripts test",
     "test:ci": "npm test -- --watchAll=false",
