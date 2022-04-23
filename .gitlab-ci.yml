@@ -97,7 +97,7 @@ deploy_job:
     - echo "JWT_KEY=${JWT_KEY}" >> "${REMOTE_DIR}/.env"
     - cat "${REMOTE_DIR}/.env"
     # Copy files to server
-    - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:/"
+    - rsync -r "${REMOTE_DIR}" "${REMOTE_HOST}:./"
     # Open SSH connection and start the containers
     - ssh ${REMOTE_HOST} /bin/bash `
       echo ${REMOTE_DIR};
