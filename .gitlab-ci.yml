@@ -63,7 +63,7 @@ deploy_job:
   stage: deploy
   services:
     - docker:dind
-  scripts:
+  script:
     # Prepare env variables
     - export CLIENT_IMAGE="${CI_REGISTERY_IMAGE}/client"
     - export API_IMAGE="${CI_REGISTERY_IMAGE}/api"
@@ -85,10 +85,10 @@ deploy_job:
     - docker push "${DB_IMAGE}"
     # Crate a directory to be copied to the remote server
     - mkdir "${REMOTE_DIR}"
+    - cp docker-compose.production.yml "${REMOTE_DIR}/docker-compose.yml"
     - echo "CLIENT_IMAGE=${CLIENT_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "API_IMAGE=${API_IMAGE}" >> "${REMOTE_DIR}/.env"
     - echo "DB_IMAGE=${DB_IMAGE}" >> "${REMOTE_DIR}/.env"
-
   only:
     - main
   when: manual
