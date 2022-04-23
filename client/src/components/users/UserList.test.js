@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import UserList from './UserList.js'
-import { AuthContext } from '../../context/auth-context.js'
+import { AuthContext } from '../../context/Auth-context.js'
 
 describe('UserList', () => {
   const DUMMY_USERS = [

@@ -13,7 +13,7 @@ describe('Authenticate', () => {
     expect(screen.getByText('LOGIN')).toBeInTheDocument()
     expect(screen.getByText('Signup instead?')).toBeInTheDocument()
   })
-  it('should render the sigup screen', async () => {
+  it('should render the signup screen', async () => {
     render(<Authenticate />)
     //Trigger signup button click
     fireEvent.click(screen.getByText('Signup instead?'))

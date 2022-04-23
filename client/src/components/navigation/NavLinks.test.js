@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import NavLinks from './NavLinks'
-import { AuthContext } from '../../context/auth-context.js'
+import { AuthContext } from '../../context/Auth-context.js'
 
 describe('Navigation Links', () => {
   it('Should only show the authentication button when not authenticated', () => {
