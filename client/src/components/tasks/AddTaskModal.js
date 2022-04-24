@@ -23,7 +23,7 @@ const AddTaskModal = (props) => {
   const auth = useContext(AuthContext)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
-  const [formState, inputHandler] = useForm(
+  const [formState, inputHandler, setFormData] = useForm(
     {
       title: {
         value: '',
@@ -66,6 +66,27 @@ const AddTaskModal = (props) => {
           Authorization: 'Bearer ' + auth.token
         }
       )
+      // setFormData(
+      //   {
+      //     title: {
+      //       value: '', // We add an empty value
+      //       isValid: false // False because it's empty
+      //     },
+      //     description: {
+      //       value: '',
+      //       isValid: false
+      //     },
+      //     deadlineDate: {
+      //       value: '',
+      //       isValid: false
+      //     },
+      //     deadlineTime: {
+      //       value: '',
+      //       isValid: false
+      //     }
+      //   },
+      //   false
+      // ) // Form is false because values are false
       props.update()
     } catch (e) {}
   }
@@ -98,7 +119,7 @@ const AddTaskModal = (props) => {
             type="text"
             label="Description"
             validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(500)]}
-            errorText="Description has to be 1-50 characters"
+            errorText="Description has to be 1-500 characters"
             initialValue=""
             initialValid={false}
             onInput={inputHandler}

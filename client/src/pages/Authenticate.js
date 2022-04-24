@@ -47,7 +47,7 @@ const Authenticate = (props) => {
             'Content-Type': 'application/json'
           }
         )
-        console.log(response)
+        // console.log(response)
         auth.login(response.userId, response.token, response.isAdmin)
       } catch (err) {}
     } else {

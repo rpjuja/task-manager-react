@@ -2,11 +2,11 @@ import pg from 'pg'
 import 'dotenv/config'
 
 const pool = new pg.Pool({
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT
+  database: 'taskmanagerDB',
+  user: 'user',
+  host: 'localhost',
+  password: 'pass',
+  port: 5432
 })
 
 pool.query(
@@ -18,34 +18,16 @@ pool.query(
     email character varying(100) COLLATE pg_catalog."default" NOT NULL,
     password character(60) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id)
-  )`,
-  (error, results) => {
-    if (error) {
-      throw error
-    }
-    console.log(results)
-  }
-)
-
-pool.query(
-  `CREATE TABLE IF NOT EXISTS public.taskLists
+  );
+  CREATE TABLE IF NOT EXISTS public.taskLists
   (
     id character(36) COLLATE pg_catalog."default" NOT NULL,
     name character varying(50) COLLATE pg_catalog."default" NOT NULL,
     creator character(36) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT taskLists_pkey PRIMARY KEY (id),
     CONSTRAINT taskLists_fkey FOREIGN KEY (creator) REFERENCES users (id) ON DELETE CASCADE
-  )`,
-  (error, results) => {
-    if (error) {
-      throw error
-    }
-    console.log(results)
-  }
-)
-
-pool.query(
-  `CREATE TABLE IF NOT EXISTS public.tasks
+  );
+  CREATE TABLE IF NOT EXISTS public.tasks
   (
     id character(36) COLLATE pg_catalog."default" NOT NULL,
     title character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -56,7 +38,7 @@ pool.query(
     list_id character(36) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT tasks_pkey PRIMARY KEY (id),
     CONSTRAINT tasks_fkey FOREIGN KEY (list_id) REFERENCES taskLists (id) ON DELETE CASCADE
-  )`,
+  );`,
   (error, results) => {
     if (error) {
       throw error

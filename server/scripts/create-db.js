@@ -2,13 +2,13 @@ import pgtools from 'pgtools'
 import 'dotenv/config'
 
 const config = {
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT
+  user: 'user',
+  host: 'localhost',
+  password: 'pass',
+  port: 5432
 }
 
-pgtools.createdb(config, process.env.DB_NAME, (err, res) => {
+pgtools.createdb(config, 'taskmanagerDB', (err, res) => {
   if (err) {
     console.error(err)
     process.exit(-1)
