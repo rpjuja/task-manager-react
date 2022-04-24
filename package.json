@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "install": "(npm install) && (cd server && npm install) && (cd ..) && (cd client && npm install)",
+    "install": "(cd server && npm install) && (cd ..) && (cd client && npm install)",
     "init:database": "(cd server && node scripts/create-db.js && node scripts/init-db.js)",
     "drop:database": "(cd server && node scripts/drop-db.js)",
     "test": "(cd server && npm run test) && (cd ..) && (cd client && npm run test:ci)",

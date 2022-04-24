@@ -6,7 +6,7 @@ Fullstack task manager web application that let's users create workspaces that c
 
 ## How to install and run locally
 
-To run this application you will need docker and npm installed
+**To run this application you will need docker, node and npm installed**
 
 To clone this repository and navigate to the cloned directory
 
