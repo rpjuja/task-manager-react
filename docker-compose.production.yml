@@ -11,19 +11,19 @@ services:
     image: "${API_IMAGE}"
     environment:
       DB_NAME: taskmanagerDB
-      DB_USER: ${DB_USER}
+      DB_USER: "${DB_USER}"
       DB_HOST: db
-      DB_PASSWORD: ${PASSWORD}
+      DB_PASSWORD: "${DB_PASSWORD}"
       DB_PORT: 5432
-      JWT_KEY: ${JWT_KEY}
+      JWT_KEY: "${JWT_KEY}"
     ports:
       - "5000:5000"
     restart: always
   db:
     image: "${DB_IMAGE}"
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_DB: taskmanagerDB
     restart: always
     volumes:
