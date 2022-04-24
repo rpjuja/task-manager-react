@@ -28,8 +28,21 @@
 
 .button--inverse:hover,
 .button--inverse:active {
+  transition-duration: 0.5s;
   color: white;
   background: #4285F4;
+}
+
+.button--gray {
+  background: #C0C0C0;
+  color: black;
+  border: 1px solid #808080;
+}
+
+.button--gray:hover,
+.button--gray:active {
+  background: #808080;
+  border-color: #808080;
 }
 
 .button--danger {

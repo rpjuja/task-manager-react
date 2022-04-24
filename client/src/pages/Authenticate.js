@@ -100,7 +100,7 @@ const Authenticate = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       <div className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2 className="">Login Required</h2>
+        <h2 className="login-header">Login Required</h2>
         <form onSubmit={onSubmitHandler}>
           {!isLoginMode && (
             <Input
@@ -131,11 +131,11 @@ const Authenticate = (props) => {
             errorText="Enter a valid password, at least 6 characters"
             onInput={inputHandler}
           />
-          <Button type="submit" disabled={!formState.isValid}>
+          <Button gray type="submit" disabled={!formState.isValid}>
             {isLoginMode ? 'LOGIN' : 'SIGNUP'}
           </Button>
         </form>
-        <Button inverse onClick={switchModeHandler}>
+        <Button gray inverse onClick={switchModeHandler}>
           {isLoginMode ? 'Signup' : 'Login'} instead?
         </Button>
       </div>

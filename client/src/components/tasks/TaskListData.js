@@ -4,6 +4,7 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import ErrorModal from '../modal/ErrorModal'
 import { useHttpClient } from '../../hooks/http-hook'
 
+import Button from '../button/Button'
 import TaskCard from './TaskCard'
 import AddTaskModal from './AddTaskModal'
 import './TaskListData.css'
@@ -81,14 +82,15 @@ const TaskListData = (props) => {
             )
           })}
           <div className="add-button">
-            <button
+            <Button
+              gray
               onClick={() => {
                 setNewTaskStatus(0)
                 setShowAddModal(true)
               }}
             >
               + Add task
-            </button>
+            </Button>
           </div>
         </div>
         <div className="task-col-two">
@@ -103,14 +105,15 @@ const TaskListData = (props) => {
             )
           })}
           <div className="add-button">
-            <button
+            <Button
+              gray
               onClick={() => {
                 setNewTaskStatus(1)
                 setShowAddModal(true)
               }}
             >
               + Add task
-            </button>
+            </Button>
           </div>
         </div>
         <div className="task-col-three">
@@ -125,14 +128,15 @@ const TaskListData = (props) => {
             )
           })}
           <div className="add-button">
-            <button
+            <Button
+              gray
               onClick={() => {
                 setNewTaskStatus(2)
                 setShowAddModal(true)
               }}
             >
               + Add task
-            </button>
+            </Button>
           </div>
         </div>
       </div>

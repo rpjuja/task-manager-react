@@ -29,7 +29,7 @@ const TaskLists = (props) => {
             onChange={(e) => setNewListName(e.target.value)}
           />
         </div>
-        <Button onClick={() => props.newTaskList(newListName)}>Create</Button>
+        <Button gray onClick={() => props.newTaskList(newListName)}>Create</Button>
       </div>
     )
   }

@@ -1,10 +1,18 @@
 .authentication {
   width: 90%;
+  border: 1px solid gray;
+  background: lightgray;
   max-width: 25rem;
   margin: 7rem auto;
   text-align: center;
+  padding: 1rem
 }
 
 .authentication form {
   margin-bottom: 1rem;
 }
+
+.authentication input {
+  width: 97%
+}
+
