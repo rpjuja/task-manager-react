@@ -24,19 +24,19 @@ npm run install
 To start the docker container in the background
 
 ```
-docker compose up -d
-```
-
-To create and initialize the database
-
-```
-npm run init:database
+docker-compose up -d
 ```
 
 To run tests
 
 ```
 npm run test
+```
+
+If you get a _database "taskmanagerDB" does not exist_ error
+
+```
+npm run init:database
 ```
 
 **Use seperate windows to run the server and the client**
@@ -53,12 +53,10 @@ To start the client
 npm run start:client
 ```
 
-**After using**
-
-When done remember to stop docker
+**When done remember to stop docker**
 
 ```
-docker compose down
+docker-compose down
 ```
 
 And if you wish to drop the database (ALL DATA WILL BE LOST!)

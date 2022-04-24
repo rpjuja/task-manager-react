@@ -100,8 +100,7 @@ const Authenticate = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       <div className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
-        <h2>Login Required</h2>
-        <hr />
+        <h2 className="">Login Required</h2>
         <form onSubmit={onSubmitHandler}>
           {!isLoginMode && (
             <Input

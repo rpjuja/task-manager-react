@@ -2,6 +2,7 @@ import { validationResult } from 'express-validator'
 import { v4 } from 'uuid'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 import HttpError from '../models/http-error.js'
 
@@ -69,7 +70,7 @@ const signUpUser = async (req, res, next) => {
         userId: newUser.id,
         email: newUser.email
       },
-      process.env.JWT_KEY, // NOT OPTIMAL, MOVE!
+      process.env.JWT_KEY,
       {
         expiresIn: '1h'
       }
@@ -117,7 +118,7 @@ const loginUser = async (req, res, next) => {
         userId: identifiedUser.id,
         email: identifiedUser.email
       },
-      process.env.JWT_KEY, // NOT OPTIMAL, MOVE!
+      process.env.JWT_KEY,
       {
         expiresIn: '1h'
       }

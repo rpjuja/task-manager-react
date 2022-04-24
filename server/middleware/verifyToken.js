@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import HttpError from '../models/http-error.js'
+import 'dotenv/config'
 
 const verifyToken = (req, res, next) => {
   // Default behavior is that an OPTIONS request is sent before all but GET
