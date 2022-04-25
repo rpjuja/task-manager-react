@@ -4,6 +4,11 @@
 
 Fullstack task manager web application that let's users create workspaces that contain tasks in three different columns, backlog, in progress and done. Tasks can be added, moved, edited and deleted. User has to be signed in to use the app and can modify their information if needed.
 
+| Links  |      |
+| ------------- | ------------- |
+| API documentation | https://app.swaggerhub.com/apis/rpjuja/Task-Manager-API/1.0.0 |
+| Database Schema  | https://drive.google.com/file/d/1cXl8kIU9q5Aol71bCA7j7VmEO4RGl8N4/view?usp=sharing |
+
 ## How to install and run locally
 
 **To run this application you will need docker, node and npm installed**
@@ -33,7 +38,7 @@ To run tests
 npm run test
 ```
 
-If you get a _database "taskmanagerDB" does not exist_ error
+If you get a "_database "taskmanagerDB" does not exist_" error, run
 
 ```
 npm run init:database
