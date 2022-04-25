@@ -113,7 +113,7 @@ describe('TaskLists', () => {
     expect(screen.queryByText('In Progress')).toBeNull()
     expect(screen.getByRole('button', { name: 'Done' })).toBeInTheDocument()
 
-    // Test that edit task modal exists
+    // Test that edit task modal exists in the background
     expect(screen.getByText('Title')).toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Title' })).toBeInTheDocument()
     expect(screen.getByText('Description')).toBeInTheDocument()

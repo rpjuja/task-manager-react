@@ -129,9 +129,9 @@ const TaskLists = (props) => {
                 aria-label="new-ws-name-input"
                 onChange={(e) => setNewListName(e.target.value)}
               />
-              <button onClick={() => props.newTaskList(newListName)}>
+              <Button gray onClick={() => props.newTaskList(newListName)}>
                 + Add workspace
-              </button>
+              </Button>
             </div>
           )}
         </div>
