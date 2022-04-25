@@ -9,6 +9,7 @@
   margin-right: 1rem;
   text-decoration: none;
   display: inline-block;
+  transition-duration: 0.3s;
 }
 
 .button:focus {
@@ -28,20 +29,20 @@
 
 .button--inverse:hover,
 .button--inverse:active {
-  transition-duration: 0.5s;
   color: white;
   background: #4285F4;
+  transition-duration: 0.4s;
 }
 
 .button--gray {
-  background: #C0C0C0;
+  background: #D3D3D3;
   color: black;
   border: 1px solid #808080;
 }
 
 .button--gray:hover,
 .button--gray:active {
-  background: #808080;
+  background: silver;
   border-color: #808080;
 }
 
