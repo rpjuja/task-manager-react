@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import Input from '../input/Input'
 import Button from '../button/Button'
@@ -7,44 +7,35 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import { useForm } from '../../hooks/form-hook'
 import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
-import { VALIDATOR_MINLENGTH, VALIDATOR_MAXLENGTH } from '../../util/validators'
+import { VALIDATOR_MINLENGTH, VALIDATOR_EQ } from '../../util/validators'
 
 import './UserEditModal.css'
 
 const UserEditModal = (props) => {
   const showHideClassName = props.show
-    ? 'modal-background display-block'
-    : 'modal-background display-none'
+    ? 'user-modal-background display-block'
+    : 'user-modal-background display-none'
 
   const auth = useContext(AuthContext)
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
-  const [formState, inputHandler, setFormData] = useForm({
-    name: {
-      value: '',
-      isValid: false
-    },
-    password: {
-      value: '',
-      isValid: false
-    }
-  })
-
-  useEffect(() => {
-    setFormData(
-      {
-        name: {
-          value: props.name,
-          isValid: true
-        },
-        password: {
-          value: props.password,
-          isValid: true
-        }
+  const [formState, inputHandler] = useForm(
+    {
+      currentPassword: {
+        value: '',
+        isValid: false
       },
-      true
-    )
-  }, [props.name, props.password, setFormData])
+      newPassword: {
+        value: '',
+        isValid: false
+      },
+      newPasswordAgain: {
+        value: '',
+        isValid: false
+      }
+    },
+    false
+  )
 
   const editHandler = async () => {
     try {
@@ -52,8 +43,8 @@ const UserEditModal = (props) => {
         `${process.env.REACT_APP_BACKEND}/users/${props.id}`,
         'PATCH',
         JSON.stringify({
-          name: formState.inputs.name.value,
-          password: formState.inputs.password.value
+          currentPassword: formState.inputs.currentPassword.value,
+          newPassword: formState.inputs.newPassword.value
         }),
         {
           'Content-Type': 'application/json',
@@ -65,8 +56,10 @@ const UserEditModal = (props) => {
   }
 
   const onUpdate = () => {
-    editHandler()
-    props.handleClose()
+    if (formState.newPassword.localeCompare(formState.newPasswordAgain) === 0) {
+      editHandler()
+      props.handleClose()
+    }
   }
 
   return (
@@ -74,24 +67,34 @@ const UserEditModal = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       <div className={showHideClassName}>
         {isLoading && <LoadingSpinner asOverlay />}
-        <section className="modal-main">
+        <section className="user-modal-main">
           <Input
             element="input"
-            id="name"
-            type="text"
-            label="Name"
-            validators={[VALIDATOR_MINLENGTH(1), VALIDATOR_MAXLENGTH(100)]}
-            errorText="Enter a name"
+            id="currentPassword"
+            type="password"
+            label="Current password"
+            validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Enter a valid password"
             onInput={inputHandler}
-            initialValue={props.name}
-            initialValid={true}
           />
           <Input
             element="input"
-            id="password"
+            id="newPassword"
             type="password"
-            label="Password"
+            label="New password"
             validators={[VALIDATOR_MINLENGTH(6)]}
+            errorText="Enter a valid password"
+            onInput={inputHandler}
+          />
+          <Input
+            element="input"
+            id="newPasswordAgain"
+            type="password"
+            label="New password again"
+            validators={[
+              VALIDATOR_MINLENGTH(6),
+              VALIDATOR_EQ(formState.inputs.newPassword)
+            ]}
             errorText="Enter a valid password"
             onInput={inputHandler}
           />
@@ -99,7 +102,9 @@ const UserEditModal = (props) => {
             <Button danger onClick={props.handleClose}>
               Close
             </Button>
-            <Button onClick={onUpdate}>Update</Button>
+            <Button disabled={!formState.isValid} onClick={onUpdate}>
+              Update
+            </Button>
           </div>
         </section>
       </div>

@@ -91,7 +91,6 @@ const Authenticate = (props) => {
         false
       ) //Form is false because name was false
     }
-
     setIsLoginMode((prevMode) => !prevMode)
   }
 
@@ -128,7 +127,7 @@ const Authenticate = (props) => {
             type="password"
             label="Password"
             validators={[VALIDATOR_MINLENGTH(6)]}
-            errorText="Enter a valid password, at least 6 characters"
+            errorText="Enter a valid password"
             onInput={inputHandler}
           />
           <Button gray type="submit" disabled={!formState.isValid}>

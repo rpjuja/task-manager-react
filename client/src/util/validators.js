@@ -44,8 +44,6 @@ export const validate = (value, validators) => {
       isValid = isValid && /^\S+@\S+\.\S+$/.test(value)
     }
     if (validator.type === VALIDATOR_TYPE_EQ) {
-      console.log(value)
-      console.log(validator.val.value)
       isValid = isValid && value.localeCompare(validator.val.value) === 0
     }
   }

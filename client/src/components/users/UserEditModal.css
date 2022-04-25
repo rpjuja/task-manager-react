@@ -1,4 +1,4 @@
-.modal-background {
+.user-modal-background { 
   position: fixed;
   z-index: 100;
   top: 0;
@@ -8,10 +8,10 @@
   background: rgba(0, 0, 0, 0.6);
 }
 
-.modal-main {
+.user-modal-main {
   position: fixed;
   background: white;
-  width: 40%;
+  width: 20%;
   height: auto;
   border-radius: 8px;
   padding: 10px 30px 10px 20px;
@@ -22,8 +22,13 @@
 }
 
 .user-edit-buttons {
-  text-align: right;
-  padding: 0.5rem 0 1rem 0;
+  text-align: center;
+  padding: 0.5rem 0 1rem 1rem;
+}
+
+.user-edit-buttons * {
+  width: 6rem;
+  margin-bottom: 0.5rem;
 }
 
 .display-block {
