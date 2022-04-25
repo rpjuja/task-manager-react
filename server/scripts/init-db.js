@@ -2,11 +2,11 @@ import pg from 'pg'
 import 'dotenv/config'
 
 const pool = new pg.Pool({
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT
+  database: 'taskmanagerDB',
+  user: 'user',
+  host: 'localhost',
+  password: 'pass',
+  port: 5432
 })
 
 pool.query(
