@@ -62,5 +62,5 @@ test('DELETE /api/tasklists/taskListId deletes a task list', async () => {
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer ' + loggedInUser.token)
   expect(response.status).toBe(200)
-  expect(response.body.message).toBe('Task list deleted')
+  expect(response.body.message).toBe('Tasklist deleted')
 })

@@ -10,6 +10,8 @@ import {
   loginUser
 } from '../controllers/users.js'
 
+import checkToken from '../middleware/verifyToken.js'
+
 const usersRouter = Router()
 
 usersRouter.get('/', getUsers)
@@ -27,6 +29,8 @@ usersRouter.post(
 )
 
 usersRouter.post('/login', loginUser)
+
+usersRouter.use(checkToken)
 
 usersRouter.patch(
   '/:uid',

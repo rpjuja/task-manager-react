@@ -23,7 +23,7 @@ tasksRouter.post(
     check('title').isLength({ min: 1, max: 50 }),
     check('description').isLength({ min: 1, max: 500 }),
     check('deadline').isISO8601().toDate(),
-    check('status').notEmpty(),
+    check('status').notEmpty().isInt({ min: 0, max: 2 }),
     check('list_id').notEmpty()
   ],
   createTask
@@ -41,7 +41,7 @@ tasksRouter.patch(
 
 tasksRouter.patch(
   '/status/:tid',
-  [check('status').notEmpty()],
+  [check('status').notEmpty().isInt({ min: 0, max: 2 })],
   updateTaskStatus
 )
 

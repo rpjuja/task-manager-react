@@ -1,4 +1,3 @@
-
 process.env.DB_NAME = 'taskmanagerDB'
 process.env.DB_USER = 'user'
 process.env.DB_HOST = 'localhost'

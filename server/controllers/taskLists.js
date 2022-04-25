@@ -38,7 +38,7 @@ const createTaskList = async (req, res, next) => {
   const result = await addTaskList(newTaskList)
   if (!result) {
     return next(
-      new HttpError('Something went wrong creating the task list', 500)
+      new HttpError('Something went wrong creating the taskTasklistlist', 500)
     )
   }
   res.status(201).json({ taskList: newTaskList })
@@ -50,21 +50,21 @@ const deleteTaskList = async (req, res, next) => {
   const taskList = await getTaskListById(lid)
   if (!taskList) {
     return next(
-      new HttpError('Could not find a task list for the provided id', 404)
+      new HttpError('Could not find a tasklist for the provided id', 404)
     )
   }
 
   if (taskList.creator !== req.userData.userId) {
-    return next(new HttpError('Not authorized to delete the task list', 401))
+    return next(new HttpError('Not authorized to delete the tasklist', 401))
   }
 
   const result = await deleteTaskListById(lid)
   if (!result) {
     return next(
-      new HttpError('Could not delete the task list with the provided id', 404)
+      new HttpError('Could not delete the tasklist with the provided id', 404)
     )
   }
-  res.status(200).json({ message: 'Task list deleted' })
+  res.status(200).json({ message: 'Tasklist deleted' })
 }
 
 export {

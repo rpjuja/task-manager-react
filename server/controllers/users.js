@@ -124,7 +124,7 @@ const loginUser = async (req, res, next) => {
       }
     )
   } catch (err) {
-    return next(new HttpError('Signup process failed, try again', 500))
+    return next(new HttpError('Login process failed, try again', 500))
   }
 
   res.status(201).json({
@@ -158,7 +158,7 @@ const editUser = async (req, res, next) => {
     return next(new HttpError('Could not find a user for the provided id', 404))
   }
 
-  if (user.id !== id) {
+  if (user.id !== req.userData.userId) {
     return next(new HttpError('Not authorized to update the user', 401))
   }
 
@@ -180,7 +180,7 @@ const deleteUser = async (req, res, next) => {
     return next(new HttpError('Could not find a user for the provided id', 404))
   }
 
-  if (user.id !== id && !user.isAdmin) {
+  if (user.id !== req.userData.userId && !user.isAdmin) {
     return next(new HttpError('Not authorized to delete the user', 401))
   }
 
