@@ -30,7 +30,7 @@
 
 .user-item__buttons {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   flex: 1;
   padding: 1.7rem 1rem;
