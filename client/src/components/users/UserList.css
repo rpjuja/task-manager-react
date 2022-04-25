@@ -1,5 +1,9 @@
 .user-list {
   width: 90%;
   margin: 0 auto 0 auto;
-  padding-top: 20px;
+  padding-top: 2rem;
+}
+
+.user-list li {
+  margin-top: 0.5rem
 }

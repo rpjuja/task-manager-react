@@ -21,7 +21,8 @@ const UserList = (props) => {
           email={user.email}
           password={user.password}
           isAdmin={user.isadmin}
-          update={props.update}
+          removeUser={props.removeUser}
+          update={props.updateList}
         />
       ))}
     </div>

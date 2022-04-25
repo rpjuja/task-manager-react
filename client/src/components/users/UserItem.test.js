@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 
 import UserItem from './UserItem.js'
@@ -11,7 +11,7 @@ describe('UserItem', () => {
     id: 'user1',
     name: 'John Doe',
     email: 'john@doe.com',
-    isAdmin: false
+    isAdmin: true
   }
 
   it('Should show the user item', () => {
@@ -39,12 +39,12 @@ describe('UserItem', () => {
     )
     expect(screen.getByText('John Doe')).toBeInTheDocument()
     expect(screen.getByText('john@doe.com')).toBeInTheDocument()
-    expect(screen.getByText('Standard User')).toBeInTheDocument()
+    expect(screen.getByText('Admin User')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument()
     expect(screen.getByTestId('user-delete-button')).toBeInTheDocument()
   })
 
-  it('Should show the user edit modal when edit is clicked', async () => {
+  it('Should show the user edit modal in the background', async () => {
     render(
       <AuthContext.Provider
         value={{
@@ -67,13 +67,11 @@ describe('UserItem', () => {
         </BrowserRouter>
       </AuthContext.Provider>
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Edit' }))
-    expect(screen.getByText('Name')).toBeInTheDocument()
-    expect(screen.getByText(DUMMY_USER.name)).toBeInTheDocument()
-    expect(screen.getByText('Password')).toBeInTheDocument()
+    expect(screen.getByText('Current password')).toBeInTheDocument()
+    expect(screen.getByText('New password')).toBeInTheDocument()
+    expect(screen.getByText('New password again')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Update' })).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
   })
 
   // it('Should show the confirmation modal when delete is clicked', async () => {
