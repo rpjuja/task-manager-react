@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 
+import UserCard from '../components/users/UserCard'
 import UserList from '../components/users/UserList'
 import ErrorModal from '../components/modal/ErrorModal'
 import LoadingSpinner from '../components/loadingspinner/LoadingSpinner'
@@ -25,7 +26,6 @@ const Users = () => {
             `${process.env.REACT_APP_BACKEND}/users/${userId}`
           )
         }
-        console.log(res.users)
         setUserData(res.users)
       } catch (err) {}
     }
@@ -37,6 +37,24 @@ const Users = () => {
     setToggle((prevState) => !prevState)
   }
 
+  const removeUserHandler = async (userId) => {
+    try {
+      await sendRequest(
+        `${process.env.REACT_APP_BACKEND}/users/${userId}`,
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + auth.token
+        }
+      )
+      // Logout if user removes own account
+      if (userId === auth.userId) {
+        auth.logout()
+      }
+      setToggle((prevState) => !prevState)
+    } catch (e) {}
+  }
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -45,8 +63,19 @@ const Users = () => {
           <LoadingSpinner asOverlay />
         </div>
       )}
-      {!isLoading && userData && (
-        <UserList users={userData} update={updateList} />
+      {!isLoading && userData && auth.isAdmin && (
+        <UserList
+          users={userData}
+          removeUser={removeUserHandler}
+          update={updateList}
+        />
+      )}
+      {!isLoading && userData && !auth.isAdmin && (
+        <UserCard
+          user={userData[0]}
+          removeUser={removeUserHandler}
+          update={updateList}
+        />
       )}
     </React.Fragment>
   )
