@@ -44,10 +44,10 @@ const addUser = async (user) => {
   return result.rows
 }
 
-const editExistingUser = async (name, password, id) => {
+const editExistingUser = async (password, id) => {
   const result = await pool.query(
-    'UPDATE users SET name=$1, password=$2 WHERE id=$3',
-    [name, password, id]
+    'UPDATE users SET password=$1 WHERE id=$2',
+    [password, id]
   )
   console.log(result)
   return result.rows

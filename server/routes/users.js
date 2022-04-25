@@ -4,7 +4,7 @@ import { check } from 'express-validator'
 import {
   getUser,
   getUsers,
-  editUser,
+  changePassword,
   deleteUser,
   signUpUser,
   loginUser
@@ -34,8 +34,8 @@ usersRouter.use(checkToken)
 
 usersRouter.patch(
   '/:uid',
-  [check('name').notEmpty(), check('password').isLength({ min: 6 })],
-  editUser
+  [check('currentPassword').notEmpty(), check('newPassword').isLength({ min: 6 })],
+  changePassword
 )
 
 usersRouter.delete('/:uid', deleteUser)

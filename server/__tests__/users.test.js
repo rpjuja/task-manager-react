@@ -11,6 +11,7 @@ const userData = {
 }
 
 let createdUserId
+let loggedInUserToken
 
 test('POST /api/users/signup', async () => {
   await pool.query('DELETE FROM users WHERE email=$1', ['john@wayne.com'])
@@ -26,6 +27,15 @@ test('POST /api/users/signup', async () => {
   expect(response.body.isAdmin).toBeFalsy()
 
   createdUserId = response.body.userId
+})
+
+test('POST /api/users/signup when user exists', async () => {
+  const response = await supertest(app)
+    .post('/api/users/signup')
+    .set('Accept', 'application/json')
+    .send(userData)
+  expect(response.status).toBe(422)
+  expect(response.body.message).toEqual('Could not create user, user exist')
 })
 
 test('GET /api/users returns list of users', async () => {
@@ -48,15 +58,6 @@ test('GET /api/users/userId returns a user in an array', async () => {
     })
 })
 
-test('POST /api/users/signup when user exists', async () => {
-  const response = await supertest(app)
-    .post('/api/users/signup')
-    .set('Accept', 'application/json')
-    .send(userData)
-  expect(response.status).toBe(422)
-  expect(response.body.message).toEqual('Could not create user, user exist')
-})
-
 test('POST /api/users/login', async () => {
   delete userData.name
   const response = await supertest(app)
@@ -69,6 +70,8 @@ test('POST /api/users/login', async () => {
   expect(response.body.userId).toBe(createdUserId)
   expect(response.body.isAdmin).toBeFalsy()
   expect(response.body.password).toBeFalsy()
+
+  loggedInUserToken = response.body.token
 })
 
 test('POST /api/users/login with wrong email', async () => {
@@ -98,23 +101,26 @@ test('POST /api/users/login with wrong password', async () => {
   )
 })
 
-test('PATCH /api/users/userId modifies users name and password', async () => {
-  const modifiedUser = {
-    name: 'Jack Wayne',
-    password: 'password123'
+test('PATCH /api/users/userId changes users password', async () => {
+  const newPassword = {
+    currentPassword: 'password',
+    newPassword: 'password123'
   }
 
   const response = await supertest(app)
     .patch(`/api/users/${createdUserId}`)
     .set('Accept', 'application/json')
-    .send(modifiedUser)
+    .set('Authorization', 'Bearer ' + loggedInUserToken)
+    .send(newPassword)
   expect(response.status).toBe(200)
-  expect(response.body.name).toBe('Jack Wayne')
+  expect(response.body.message).toBe('Password updated')
   expect(response.body.password).toBeFalsy()
 })
 
 test('DELETE /api/users/userId deletes the user', async () => {
-  const response = await supertest(app).delete(`/api/users/${createdUserId}`)
+  const response = await supertest(app)
+    .delete(`/api/users/${createdUserId}`)
+    .set('Authorization', 'Bearer ' + loggedInUserToken)
   expect(response.status).toBe(200)
   expect(response.body.message).toBe('Deleted the user')
 })
