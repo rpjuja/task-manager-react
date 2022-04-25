@@ -71,7 +71,7 @@ const signUpUser = async (req, res, next) => {
         userId: newUser.id,
         email: newUser.email
       },
-      process.env.JWT_KEY,
+      process.env.JWT_KEY || 'this_is_my_supersecret_key',
       {
         expiresIn: '1h'
       }
@@ -119,7 +119,7 @@ const loginUser = async (req, res, next) => {
         userId: identifiedUser.id,
         email: identifiedUser.email
       },
-      process.env.JWT_KEY,
+      process.env.JWT_KEY || 'this_is_my_supersecret_key',
       {
         expiresIn: '1h'
       }

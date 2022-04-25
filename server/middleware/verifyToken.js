@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
     if (!token) {
       throw new Error('Authentication failed')
     }
-    const decodedToken = jwt.verify(token, process.env.JWT_KEY)
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY || 'this_is_my_supersecret_key')
     req.userData = { userId: decodedToken.userId }
     next()
   } catch (err) {
