@@ -1,4 +1,4 @@
-.user-modal-background { 
+.user-modal-background {
   position: fixed;
   z-index: 100;
   top: 0;
@@ -27,7 +27,6 @@
 }
 
 .user-edit-buttons * {
-  width: 6rem;
   margin-bottom: 0.5rem;
 }
 

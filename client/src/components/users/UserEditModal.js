@@ -7,7 +7,7 @@ import LoadingSpinner from '../loadingspinner/LoadingSpinner'
 import { useForm } from '../../hooks/form-hook'
 import { useHttpClient } from '../../hooks/http-hook'
 import { AuthContext } from '../../context/Auth-context'
-import { VALIDATOR_MINLENGTH, VALIDATOR_EQ } from '../../util/validators'
+import { VALIDATOR_MINLENGTH } from '../../util/validators'
 
 import './UserEditModal.css'
 
@@ -56,11 +56,9 @@ const UserEditModal = (props) => {
   }
 
   const onUpdate = () => {
-    if (formState.newPassword.localeCompare(formState.newPasswordAgain) === 0) {
       editHandler()
       props.handleClose()
     }
-  }
 
   return (
     <React.Fragment>
@@ -91,10 +89,7 @@ const UserEditModal = (props) => {
             id="newPasswordAgain"
             type="password"
             label="New password again"
-            validators={[
-              VALIDATOR_MINLENGTH(6),
-              VALIDATOR_EQ(formState.inputs.newPassword)
-            ]}
+            validators={[VALIDATOR_MINLENGTH(6)]}
             errorText="Enter a valid password"
             onInput={inputHandler}
           />
@@ -102,7 +97,15 @@ const UserEditModal = (props) => {
             <Button danger onClick={props.handleClose}>
               Close
             </Button>
-            <Button disabled={!formState.isValid} onClick={onUpdate}>
+            <Button
+              disabled={
+                !formState.isValid ||
+                formState.inputs.newPassword.value.localeCompare(
+                  formState.inputs.newPasswordAgain.value
+                ) !== 0
+              }
+              onClick={onUpdate}
+            >
               Update
             </Button>
           </div>
